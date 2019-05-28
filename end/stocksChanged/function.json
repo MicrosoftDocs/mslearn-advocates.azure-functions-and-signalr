@@ -1,0 +1,23 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "type": "cosmosDBTrigger",
+      "name": "documents",
+      "direction": "in",
+      "leaseCollectionName": "leases",
+      "connectionStringSetting": "AzureCosmosDBConnectionString",
+      "databaseName": "stocksdb",
+      "collectionName": "stocks",
+      "createLeaseCollectionIfNotExists": "true",
+      "feedPollDelay": 500
+    },
+    {
+      "type": "signalR",
+      "name": "signalRMessages",
+      "connectionString": "AzureSignalRConnectionString",
+      "hubName": "stocks",
+      "direction": "out"
+    }
+  ]
+}

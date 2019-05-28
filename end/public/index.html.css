@@ -1,0 +1,48 @@
+#app {
+    padding-top: 25px;
+}
+
+.stock {
+    width: 200px;
+    border-radius: 3px;
+    padding: 10px;
+    border: solid 1px #eee;
+    text-align: center;
+    box-shadow: -1px 0px 2px 0px #eee;
+    -webkit-box-shadow: -1px 0px 2px 0px #eee;
+    -moz-box-shadow: -1px 0px 2px 0px #eee;
+    margin: 20px 20px 20px 0;
+}
+
+.stock:hover {
+    border: solid 1px rgb(212, 212, 212);
+}
+
+.lead {
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+.is-up {
+    color: green;
+    font-weight: bold;
+}
+
+.is-down {
+    color: maroon;
+    font-weight: bold;
+}
+
+.change {
+    text-transform: uppercase;
+    color: #999;
+    font-size: .8em;
+}
+
+.fade-enter-active {
+  transition: all 1.5s ease;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
