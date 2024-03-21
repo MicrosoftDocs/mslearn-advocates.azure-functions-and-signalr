@@ -18,6 +18,7 @@ const setupAndSeedDatabase = async ()  => {
     "change": "1.00",
     "changeDirection": "+"
   });
+  console.log(`Seed data added. Symbol: ABC`);
 
   await container.items.create({
     "id": "ebe2e863-bf84-439a-89f8-39975e7d6766",
@@ -26,6 +27,7 @@ const setupAndSeedDatabase = async ()  => {
     "change": "1.25",
     "changeDirection": "-"
   });
+  console.log(`Seed data added. Symbol: DEF`);
 
   await container.items.create({
     "id": "80bc1751-3831-4749-99ea-5c6a63105ae7",
@@ -35,7 +37,7 @@ const setupAndSeedDatabase = async ()  => {
     "changeDirection": "+"
   });
 
-  console.log('Seed data added.');
+  console.log(`Seed data added. Symbol: GHI`);
 };
 
 setupAndSeedDatabase().catch(err => {

@@ -14,9 +14,10 @@
     "url": "https://github.com/MicrosoftDocs/mslearn-advocates.azure-functions-and-signalr.git"
   },
   "dependencies": {
-    "@azure/cosmos": "^2.1.5"
+    "@azure/cosmos": "^4.0.0"
   },
   "devDependencies": {
-    "lite-server": "^2.5.3"
+    "azure-functions-core-tools": "^3.0.5373",
+    "lite-server": "^2.6.1"
   }
 }
