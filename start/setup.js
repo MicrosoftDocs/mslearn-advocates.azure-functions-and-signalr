@@ -1,9 +1,16 @@
 const client = require('./db.js');
+const fs = require('fs');
 
 const databaseDefinition = { id: "stocksdb" };
-const collectionDefinition = { id: "stocks" };
+const collectionDefinition = { id: "stocks", 
+partitionKey: {
+  paths: ["/symbol"]
+} };
 
 const setupAndSeedDatabase = async ()  => {
+
+  const data = fs.readFileSync('data.json', 'utf8');
+  const items = JSON.parse(data);
 
   const { database: db } = await client.databases.create(databaseDefinition);
   console.log('Database created.');
@@ -11,33 +18,10 @@ const setupAndSeedDatabase = async ()  => {
   const { container } = await db.containers.create(collectionDefinition);
   console.log('Collection created.');
 
-  await container.items.create({
-    "id": "e0eb6e85-176d-4ce6-89ae-1f699aaa0bab",
-    "symbol": "ABC",
-    "price": "100.00",
-    "change": "1.00",
-    "changeDirection": "+"
-  });
-  console.log(`Seed data added. Symbol: ABC`);
-
-  await container.items.create({
-    "id": "ebe2e863-bf84-439a-89f8-39975e7d6766",
-    "symbol": "DEF",
-    "price": "45.89",
-    "change": "1.25",
-    "changeDirection": "-"
-  });
-  console.log(`Seed data added. Symbol: DEF`);
-
-  await container.items.create({
-    "id": "80bc1751-3831-4749-99ea-5c6a63105ae7",
-    "symbol": "GHI",
-    "price": "156.21",
-    "change": "6.81",
-    "changeDirection": "+"
-  });
-
-  console.log(`Seed data added. Symbol: GHI`);
+  for await (const item of items) {
+    await container.items.create(item);
+    console.log(`Seed data added. Symbol ${item.symbol}`);
+  }
 };
 
 setupAndSeedDatabase().catch(err => {

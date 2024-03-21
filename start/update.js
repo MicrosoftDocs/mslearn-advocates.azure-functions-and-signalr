@@ -1,51 +1,58 @@
 const client = require('./db.js');
+const fs = require('fs');
 
-const databaseDefinition = { id: "stocksdb" };
-const collectionDefinition = { id: "stocks" };
+const DB_NAME = "stocksdb";
+const COLLECTION_NAME = "stocks";
+
+const MIN = 100;
+const MAX = 999;
 
 const init = async () => {
-  const { database } = await client.databases.createIfNotExists(databaseDefinition);
-  const { container } = await database.containers.createIfNotExists(collectionDefinition);
+
+  const database = client.database(DB_NAME);
+  const container = database.container(COLLECTION_NAME);
+
   return { database, container };
 }
 
 const getPriceChange = () => {
-  const min = 100;
-  const max = 999;
-  const change = min + (Math.random() * (max - min));
+  const change = MIN + (Math.random() * (MAX - MIN));
   const value = Math.round(change);
   return parseFloat((value / 100).toFixed(2));
 }
 
 const getStockChangeValues = (existingStock) => {
+
+  console.log(`existingStock: ${JSON.stringify(existingStock)}`);
+
   const isChangePositive = !(existingStock.changeDirection === '+');
   const change = getPriceChange();
   let price = isChangePositive ? existingStock.price + change : existingStock.price - change;
   price = parseFloat(price.toFixed(2));
+
   return {
-    "price": price,
-    "change": change,
-    "changeDirection": isChangePositive ? '+' : '-'
+    price,
+    change,
+    changeDirection: isChangePositive ? '+' : '-'
   };
 };
 
 const updateData = async ()  => {
 
+  const data = fs.readFileSync('data.json', 'utf8');
+  const items = JSON.parse(data);
+
   const { container } = await init();
 
-  console.log('Read data from database.\n\n');
-  
-  const doc = await container.item('e0eb6e85-176d-4ce6-89ae-1f699aaa0bab');
-
-  const { body: existingStock } = await doc.read();
+  const doc = await container.item(items[0].id, items[0].symbol);
+  const docRead = await doc.read();
+  const existingStock = docRead.resource;  
 
   const updates = getStockChangeValues(existingStock);
+  const updatedStock = { ...existingStock, ...updates };
 
-  Object.assign(existingStock, updates);
+  await doc.replace(updatedStock);
 
-  await doc.replace(existingStock);
-
-  console.log(`Data updated: ${JSON.stringify(existingStock)}`);
 };
 
 updateData().catch(err => {
