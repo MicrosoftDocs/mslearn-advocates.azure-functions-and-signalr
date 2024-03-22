@@ -5,6 +5,7 @@ const cosmosOutput = output.cosmosDB({
     databaseName: 'stocksdb',
     containerName: 'stocks',
     connection: 'COSMOSDB_CONNECTION_STRING',
+    partitionKey: '/symbol',
     createIfNotExists: false
 
 });
