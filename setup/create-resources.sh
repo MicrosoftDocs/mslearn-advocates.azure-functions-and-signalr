@@ -72,6 +72,11 @@ cat > ../start/local.settings.json <<EOF1
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "COSMOSDB_CONNECTION_STRING": "$COSMOSDB_CONNECTION_STRING",
     "COSMOSDB_MASTER_KEY": "$COSMOSDB_MASTER_KEY"
+  },
+    "Host" : {
+    "LocalHttpPort": 7071,
+    "CORS": "http://localhost:8080",
+    "CORSCredentials": true
   }
 }
 EOF1
