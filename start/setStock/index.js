@@ -4,7 +4,8 @@ module.exports = async function (context, myTimer) {
     
     const timeStamp = new Date().toISOString();
     
-    const output = await updateData(); // Replace this with your function
+    const newStock = await updateData(); // Replace this with your function
+    console.log(`new stock: ${JSON.stringify(newStock)}`);
 
     if(myTimer.isPastDue)
     {
@@ -14,7 +15,5 @@ module.exports = async function (context, myTimer) {
     context.log('JavaScript timer trigger function ran!', timeStamp);
     output.partitionKey = "/symbol";
 
-console.log(`new stock: ${JSON.stringify(output)}`);
-
-    context.bindings.outputDocument = output;
+    return newStock;
 };
