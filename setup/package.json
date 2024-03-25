@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "setup.js",
   "scripts": {
-    "setup": "bash create-resources.sh && node setup.js"
+    "start":"setup:start",
+    "setup:start": "bash create-start-resources.sh && node setup.js",
+    "setup:signalr": "bash create-signalr-resources.sh"
+
   },
   "license": "ISC",
   "dependencies": {

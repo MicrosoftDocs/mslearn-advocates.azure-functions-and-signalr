@@ -2,6 +2,9 @@
 # https://learn.microsoft.com/training/modules/automatic-update-of-a-webapp-using-azure-functions-and-signalr
 set -e
 
+FUNCTIONS_ENV_FILE="./local.settings.json"
+NODE_ENV_FILE="./.env"
+
 #SUBSCRIPTION_NAME="Concierge Subscription"
 SUBSCRIPTION_NAME="b57b253a-e19e-4a9c-a0c0-a5062910a749"
 
@@ -64,7 +67,7 @@ COSMOSDB_MASTER_KEY=$(az cosmosdb list-keys \
 printf "\n\nReplace <STORAGE_CONNECTION_STRING> with:\n$STORAGE_CONNECTION_STRING\n\nReplace <COSMOSDB_CONNECTION_STRING> with:\n$COSMOSDB_CONNECTION_STRING\n\nReplace <COSMOSDB_MASTER_KEY> with:\n$COSMOSDB_MASTER_KEY\n\n"
 
 # create a local.settings.json file with the connection strings and keys
-cat > ../start/local.settings.json <<EOF1
+cat > $FUNCTIONS_ENV_FILE <<EOF1
 {
   "IsEncrypted": false,
   "Values": {
@@ -81,7 +84,7 @@ cat > ../start/local.settings.json <<EOF1
 EOF1
 
 # create a .env file with the connection strings and keys
-cat > ./.env <<EOF2
+cat > $NODE_ENV_FILE <<EOF2
 STORAGE_CONNECTION_STRING=$STORAGE_CONNECTION_STRING
 COSMOSDB_CONNECTION_STRING=$COSMOSDB_CONNECTION_STRING
 COSMOSDB_MASTER_KEY=$COSMOSDB_MASTER_KEY

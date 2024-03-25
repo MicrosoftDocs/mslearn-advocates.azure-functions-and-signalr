@@ -1,0 +1,18 @@
+{
+  "bindings": [
+    {
+      "name": "myTimer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "* * * * * *"
+    },
+    {
+      "type": "signalR",
+      "name": "signalRMessages",
+      "hubName": "serverless",
+      "connectionStringSetting": "SIGNALR_CONNECTION_STRING",
+      "direction": "out"
+    }
+  ],
+  "scriptFile": "../dist/broadcast/index.js"
+}

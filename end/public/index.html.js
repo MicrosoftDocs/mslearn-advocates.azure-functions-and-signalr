@@ -1,14 +1,14 @@
 const LOCAL_BASE_URL = 'http://localhost:7071';
-const AZURE_BASE_URL = '<FUNCTION_APP_ENDPOINT>';
+const REMOTE_BASE_URL = '<FUNCTION_APP_ENDPOINT>';
 
 const getAPIBaseUrl = () => {
     const isLocal = /localhost/.test(window.location.href);
-    return isLocal ? LOCAL_BASE_URL : AZURE_BASE_URL;
+    return isLocal ? LOCAL_BASE_URL : REMOTE_BASE_URL;
 }
 
 const app = new Vue({
     el: '#app',
-    data() { 
+    data() {
         return {
             stocks: []
         }
@@ -18,7 +18,6 @@ const app = new Vue({
             try {
                 const apiUrl = `${getAPIBaseUrl()}/api/getStocks`;
                 const response = await axios.get(apiUrl);
-                console.log('Stocks fetched from ', apiUrl);
                 app.stocks = response.data;
             } catch (ex) {
                 console.error(ex);
@@ -31,7 +30,10 @@ const app = new Vue({
 });
 
 const connect = () => {
-    const connection = new signalR.HubConnectionBuilder().withUrl(`${getAPIBaseUrl()}/api`).build();
+    const connection = new signalR.HubConnectionBuilder()
+                            .withUrl(`${getAPIBaseUrl()}/api`)
+                            .configureLogging(signalR.LogLevel.Information)
+                            .build();
 
     connection.onclose(()  => {
         console.log('SignalR connection disconnected');
