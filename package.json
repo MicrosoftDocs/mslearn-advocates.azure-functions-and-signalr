@@ -1,0 +1,23 @@
+{
+  "name": "signalr2",
+  "version": "1.0.0",
+  "description": "This repository is the companion to the following training module:",
+  "main": "index.js",
+  "scripts": {
+    "client:start:build": "parcel ./client-start/* --out-dir ./client-start/dist",
+    "client:start": "http-server client-start --port 3000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diberry/mslearn-advocates.azure-functions-and-signalr.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diberry/mslearn-advocates.azure-functions-and-signalr/issues"
+  },
+  "homepage": "https://github.com/diberry/mslearn-advocates.azure-functions-and-signalr#readme",
+  "dependencies": {
+  }
+}

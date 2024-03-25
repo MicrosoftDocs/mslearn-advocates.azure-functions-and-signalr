@@ -10,7 +10,7 @@
 		7071
 	],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "npm install -g azure-functions-core-tools@4.5098 --save-exact --unsafe-perm true",
+	"postCreateCommand": "bash .devcontainer/post-create-command.sh",
 	"features": {
 		"ghcr.io/devcontainers/features/azure-cli:1": {
 			"version": "latest",
