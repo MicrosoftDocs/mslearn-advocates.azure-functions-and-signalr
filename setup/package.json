@@ -1,0 +1,16 @@
+{
+  "name": "setup",
+  "version": "1.0.0",
+  "main": "setup.js",
+  "scripts": {
+    "start":"setup:start",
+    "setup:start": "bash create-start-resources.sh && node setup.js",
+    "setup:signalr": "bash create-signalr-resources.sh"
+
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@azure/cosmos": "^4.0.0",
+    "dotenv": "^16.4.5"
+  }
+}

@@ -1,22 +1,32 @@
 {
-  "name": "microsoft-learn-func-signalr-end",
-  "description": "Enable automatic updates in a web application using Azure Functions and SignalR: Microsoft Learn Sample Application",
+  "name": "start",
   "version": "1.0.0",
-  "main": "setup.js",
+  "description": "",
   "scripts": {
-    "start": "lite-server --baseDir=\"public\"",
-    "postinstall": "npm run setup",
-    "setup": "node setup.js",
-    "update-data": "node update.js"
-  },
-  "license": "MIT",
-  "repository": {
-    "url": "https://github.com/MicrosoftDocs/mslearn-advocates.azure-functions-and-signalr.git"
+    "start": "func start",
+    "prestart": "npm run clean && npm run build",
+
+    "local-start-serverless": "npm run prestart && npm run func-start",
+    "local-start-client": "lite-server --baseDir=\"public\"",
+    "func-start": "func start",
+
+    "build": "tsc",
+    "watch": "tsc -w",
+    "clean": "rimraf dist",
+    
+    "test": "echo \"No tests yet...\"",
+    "local:start": "concurrently npm:local-start-*"
   },
   "dependencies": {
-    "@azure/cosmos": "^2.1.5"
+    "@azure/functions": "^4.0.0"
   },
   "devDependencies": {
-    "lite-server": "^2.5.3"
-  }
+    "@types/node": "^18.x",
+    "azure-functions-core-tools": "^4.x",
+    "concurrently": "^8.2.2",
+    "lite-server": "^2.6.1",
+    "rimraf": "^5.0.0",
+    "typescript": "^4.0.0"
+  },
+  "main": "dist/src/functions/*.js"
 }

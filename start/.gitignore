@@ -4,6 +4,10 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Runtime data
 pids
@@ -79,11 +83,17 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
+# TypeScript output
+dist
+out
+
 # Azure Functions artifacts
 bin
 obj
 appsettings.json
+local.settings.json
 
-# TypeScript output
-dist
-out
+# Azurite artifacts
+__blobstorage__
+__queuestorage__
+__azurite_db*__.json

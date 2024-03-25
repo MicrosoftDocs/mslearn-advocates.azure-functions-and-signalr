@@ -15,7 +15,7 @@
     {
       "type": "cosmosDB",
       "direction": "in",
-      "ConnectionStringSetting": "AzureCosmosDBConnectionString",
+      "ConnectionStringSetting": "COSMOSDB_CONNECTION_STRING",
       "name": "stocks",
       "databaseName": "stocksdb",
       "collectionName": "stocks"
