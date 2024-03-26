@@ -1,9 +1,60 @@
+---
+page_type: sample
+languages:
+- javascript
+- typescript
+- nodejs
+products:
+- azure
+- azure-cosmos-db
+- azure-functions
+- azure-signalr
+- azure-storage
+- vs-code
+urlFragment: azure-functions-and-signalr-javascript
+name: "Enable real-time updates in a web application using Azure Functions and SignalR Service"
+description: Change a JavaScript web app update mechanism from polling to real-time push-based architecture with SignalR Service, Azure Cosmos DB and Azure Functions. Use Vue.js and JavaScript to use SignalR using Visual Studio Code.
+---
+
 # SignalR with Azure Functions triggers and bindings
 
 This repository is the companion to the following training module:
 
 * [Enable automatic updates in a web application using Azure Functions and SignalR Service](https://learn.microsoft.com/training/modules/automatic-update-of-a-webapp-using-azure-functions-and-signalr/)
 
+This solution displays fake stock prices as they update: 
+
+* Start: uses polling every minute
+* End: uses database change notifications and SignalR
+
+## Set up resources
+
+The Azure resources are created from bash scripts in the `setup-resources` folder. This includes creating:
+
+* Azure Cosmos DB
+* Azure SignalR
+* Azure Storage (for Azure Funciton triggers)
+
+## Ports
+
+* Client: 3000: built with webpack
+* Server: 7071: build with Azure Functions core tools
+
+## Starting project without SignalR
+
+The starting project updates stock prices in a Cosmos DB database every minute with an Azure Function app and a timer trigger. The client polls for all the stock prices. 
+
+## Ending project
+
+The starting project updates stock prices in a Cosmos DB database every minute with an Azure Function app and a timer trigger. The client uses SignalR to recieve on the Cosmos DB items with change notifications through an Azure Functions app. 
+
+## Troubleshooting
+
+Log an issue and @mention the [`javascript-docs`](https://github.com/orgs/MicrosoftDocs/teams/javascript-docs) team. 
+
+### Codespaces troubleshooting
+
+* If the request from the client is refused by the serverless app, and you have CORS correctly configured in `local.settings.json`, change the visibility of the 7071 port from `private` to `public` for testing purposes only. This should allow the client to find the server in Codspaces. 
 
 ## Trademark Notice
 

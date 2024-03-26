@@ -6,7 +6,7 @@
     width: 200px;
     border-radius: 3px;
     padding: 10px;
-    border: solid 1px #eee;
+    border: solid 1px #57c508;
     text-align: center;
     box-shadow: -1px 0px 2px 0px #eee;
     -webkit-box-shadow: -1px 0px 2px 0px #eee;
@@ -64,7 +64,6 @@
 .list-leave-to /* .list-leave-active below version 2.1.8 */ {
     opacity: 0;
     background-color: lightblue;
-}
 }
 
 .list-item {
