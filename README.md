@@ -4,6 +4,13 @@ This repository is the companion to the following training module:
 
 * [Enable automatic updates in a web application using Azure Functions and SignalR Service](https://learn.microsoft.com/training/modules/automatic-update-of-a-webapp-using-azure-functions-and-signalr/)
 
+## Troubleshooting
+
+Log an issue and @mention the [`javascript-docs`](https://github.com/orgs/MicrosoftDocs/teams/javascript-docs) team. 
+
+### Codespaces troubleshooting
+
+* If the request from the client is refused by the serverless app, and you have CORS correctly configured in `local.settings.json`, change the visibility of the 7071 port from `private` to `public` for testing purposes only. This should allow the client to find the server in Codspaces. 
 
 ## Trademark Notice
 
