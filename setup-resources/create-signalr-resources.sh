@@ -42,7 +42,8 @@ az resource update \
   --resource-group $RESOURCE_GROUP_NAME \
   --query primaryConnectionString -o tsv)
 
-echo "SignalR Connection String: $SIGNALR_CONNECTION_STRING"
-
 # Add the SignalR connection string to the .env file
 echo -e "\nSIGNALR_CONNECTION_STRING=$SIGNALR_CONNECTION_STRING" >> $NODE_ENV_FILE
+
+printf "\n\nReplace <SIGNALR_CONNECTION_STRING> with:\n$SIGNALR_CONNECTION_STRING"
+
