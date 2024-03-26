@@ -12,9 +12,9 @@ app.http('getStocks', {
     authLevel: 'anonymous',
     extraInputs: [cosmosInput],
     handler: (request, context) => {
-        const toDoItems = context.extraInputs.get(cosmosInput);
+        const stocks = context.extraInputs.get(cosmosInput);
         return {
-            jsonBody: toDoItems,
+            jsonBody: stocks,
         };
     },
 });
