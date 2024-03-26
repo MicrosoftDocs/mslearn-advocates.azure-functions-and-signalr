@@ -1,18 +1,4 @@
-const fetchConfig = async () => {
-
-    const result = await fetch('/config.json');
-
-    if(result.ok) {
-    const json = await response.json();
-        // Use the data
-        backendUrl = config.BASE_SERVERLESS_URL;
-        console.log(`backendUrl:${backendUrl}`);
-
-        return backendUrl;
-    } else {
-        console.error('Failed to fetch config.json');
-    }
-}
+import './style.css';
 
 const app = new Vue({
     el: '#app',
@@ -25,8 +11,8 @@ const app = new Vue({
     methods: {
         async update() {
             try {
-                const backendUrl = await fetchConfig();
-                const apiUrl = `${backendUrl}/api/getStocks`;
+                console.log(process.env.BACKEND_URL);
+                const apiUrl = `${process.env.BACKEND_URL}/api/getStocks`;
                 console.log(`apiUrl:${apiUrl}`);
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
