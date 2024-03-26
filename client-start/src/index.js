@@ -13,7 +13,7 @@ const app = new Vue({
             try {
                 console.log(process.env.BACKEND_URL);
                 const apiUrl = `${process.env.BACKEND_URL}/api/getStocks`;
-                console.log(`apiUrl:${apiUrl}`);
+
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
