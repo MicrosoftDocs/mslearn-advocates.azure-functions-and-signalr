@@ -56,6 +56,12 @@ Log an issue and @mention the [`javascript-docs`](https://github.com/orgs/Micros
 
 * If the request from the client is refused by the serverless app, and you have CORS correctly configured in `local.settings.json`, change the visibility of the 7071 port from `private` to `public` for testing purposes only. This should allow the client to find the server in Codspaces. 
 
+## Resources
+
+* [Azure SignalR service documentation](https://learn.microsoft.com/azure/azure-signalr/)
+* [Azure SignalR service samples](https://github.com/aspnet/AzureSignalR-samples)
+* [Azure Functions triggers and bindings for SignalR](https://learn.microsoft.com/azure/azure-functions/functions-bindings-signalr-service)
+
 ## Trademark Notice
 
 Trademarks This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft trademarks or logos is subject to and must follow [Microsoft’s Trademark & Brand Guidelines](https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general). Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship. Any use of third-party trademarks or logos are subject to those third-party’s policies.
