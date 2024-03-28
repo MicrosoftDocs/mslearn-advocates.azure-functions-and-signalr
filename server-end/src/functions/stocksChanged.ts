@@ -21,7 +21,7 @@ export async function dataToMessage(documents: unknown[], context: InvocationCon
 }
 
 const options: CosmosDBv4FunctionOptions = {
-    connection: 'COSMOSDB_CONNECTION_STRING',
+    connection: 'AZURE_COSMOS_CONNECTION_STRING_KEY',
     databaseName: 'stocksdb',
     containerName: 'stocks',
     createLeaseContainerIfNotExists: true,

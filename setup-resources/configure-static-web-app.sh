@@ -32,5 +32,5 @@ echo "Static Web App Name: $staticWebAppName"
 
 # Add the environment variable to the Static Web App
 echo "Adding the environment variables to the Static Web App..."
-az staticwebapp appsettings set --name $staticWebAppName --resource-group $resourceGroup --setting-names SIGNALR_CONNECTION_STRING=$signalrConnectionString COSMOSDB_CONNECTION_STRING=$cosmosDbConnectionString
+az staticwebapp appsettings set --name $staticWebAppName --resource-group $resourceGroup --setting-names SIGNALR_CONNECTION_STRING=$signalrConnectionString AZURE_COSMOS_CONNECTION_STRING_KEY=$cosmosDbConnectionString
 echo "Set environment variables."

@@ -3,7 +3,7 @@ import { app, input } from "@azure/functions";
 const cosmosInput = input.cosmosDB({
     databaseName: 'stocksdb',
     containerName: 'stocks',
-    connection: 'COSMOSDB_CONNECTION_STRING',
+    connection: 'AZURE_COSMOS_CONNECTION_STRING_KEY',
     sqlQuery: 'SELECT * from c',
 });
 

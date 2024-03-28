@@ -4,7 +4,7 @@ import { updateData } from "../update";
 const cosmosOutputConfig: CosmosDBOutputOptions = {
     databaseName: 'stocksdb',
     containerName: 'stocks',
-    connection: 'COSMOSDB_CONNECTION_STRING',
+    connection: 'AZURE_COSMOS_CONNECTION_STRING_KEY',
     partitionKey: 'symbol'
 };
 

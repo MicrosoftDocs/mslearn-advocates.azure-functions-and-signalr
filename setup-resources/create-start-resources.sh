@@ -60,15 +60,15 @@ COSMOSDB_ACCOUNT_NAME=$(az cosmosdb list \
 
 echo "Get CosmosDB connection string"
 
-COSMOSDB_CONNECTION_STRING=$(az cosmosdb keys list --type connection-strings \
+AZURE_COSMOS_CONNECTION_STRING_KEY=$(az cosmosdb keys list --type connection-strings \
   --name $COSMOSDB_ACCOUNT_NAME \
   --resource-group $RESOURCE_GROUP_NAME \
   --query "connectionStrings[?description=='Primary SQL Connection String'].connectionString" -o tsv)
 
-printf "\n\nReplace <STORAGE_CONNECTION_STRING> with:\n$STORAGE_CONNECTION_STRING\n\nReplace <COSMOSDB_CONNECTION_STRING> with:\n$COSMOSDB_CONNECTION_STRING"
+printf "\n\nReplace <STORAGE_CONNECTION_STRING> with:\n$STORAGE_CONNECTION_STRING\n\nReplace <AZURE_COSMOS_CONNECTION_STRING_KEY> with:\n$AZURE_COSMOS_CONNECTION_STRING_KEY"
 
 # create a .env file with the connection strings and keys
 cat >> $NODE_ENV_FILE <<EOF2
 STORAGE_CONNECTION_STRING=$STORAGE_CONNECTION_STRING
-COSMOSDB_CONNECTION_STRING=$COSMOSDB_CONNECTION_STRING
+AZURE_COSMOS_CONNECTION_STRING_KEY=$AZURE_COSMOS_CONNECTION_STRING_KEY
 EOF2
