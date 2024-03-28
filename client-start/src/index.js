@@ -1,13 +1,12 @@
 import './style.css';
 
 function getApiUrl() {
-    if (process.env.BACKEND_URL) {
-        // localhost or Codespaces
-         return `${process.env.BACKEND_URL}/api/getStocks`;
-    } else {
-        // Production on SWA with managed backend
-        return `/api/getStocks`;
-    }
+
+    const backend = process.env.BACKEND_URL;
+    
+    const url = (backend) ? `${backend}` : ``;
+    console.log('API URL:', url);
+    return url;
 }
 
 const app = new Vue({
@@ -22,7 +21,7 @@ const app = new Vue({
         async update() {
             try {
                 
-                const response = await fetch(getApiUrl());
+                const response = await fetch(`${getApiUrl()}/api/getStocks`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
