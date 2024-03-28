@@ -25,7 +25,7 @@ const app = new Vue({
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                console.log('Stocks fetched from ', apiUrl);
+                console.log('Stocks fetched from ', apiUrl());
                 app.stocks = await response.json();
             } catch (ex) {
                 console.error(ex);
