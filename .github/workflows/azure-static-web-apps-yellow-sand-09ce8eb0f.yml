@@ -4,11 +4,11 @@ on:
   
   push:
     branches:
-      - dfberry/0328-swa
+      - *
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - dfberry/0328-swa
+      - *
   workflow_dispatch:
 
 jobs:
