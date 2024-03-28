@@ -49,6 +49,7 @@ const connect = () => {
     });
 
     connection.on('updated', updatedStock => {
+        console.log('Stock updated:', updatedStock);
         const index = app.stocks.findIndex(s => s.id === updatedStock.id);
         app.stocks.splice(index, 1, updatedStock);
     });
