@@ -12,10 +12,13 @@
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "bash .devcontainer/post-create-command.sh",
 	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+        },
 		"ghcr.io/devcontainers/features/azure-cli:1": {
 			"version": "latest",
 			"installBicep": true
 		},
+		"ghcr.io/azure/azure-dev/azd:latest": {},
 		"ghcr.io/jsburckhardt/devcontainer-features/gitleaks:1": {},
 		"ghcr.io/devcontainers-contrib/features/pre-commit:2": {}
 	},
@@ -30,7 +33,10 @@
 				"dbaeumer.vscode-eslint",
 				"GitHub.copilot",
 				"GitHub.copilot-chat",
-				"ms-azuretools.vscode-azureresourcegroups"
+				"GitHub.vscode-github-actions",
+				"ms-azuretools.vscode-azureresourcegroups",
+				"ms-azuretools.vscode-bicep",
+				"ms-azuretools.vscode-docker"
 			]
 		}
 		// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.

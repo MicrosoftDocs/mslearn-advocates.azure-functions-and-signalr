@@ -1,0 +1,15 @@
+name: stock-signalr-function
+metadata:
+  template: stock-signalr-function@0.0.1-beta
+services:
+  client:
+    project: ./client-end
+    dist: dist
+    language: ts
+    host: staticwebapp
+    module: app/client
+  server:
+    project: ./server-end
+    language: ts
+    host: function
+    module: app/server2e
