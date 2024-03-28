@@ -4,7 +4,7 @@ function getApiUrl() {
 
     const backend = process.env.BACKEND_URL;
 
-    const url = (backend) ? `${backend}/api/getStocks` : `/api/getStocks`;
+    const url = (backend) ? `${backend}` : ``;
     console.log('API URL:', url);
     return url;
 }
@@ -21,7 +21,7 @@ const app = new Vue({
         async getStocks() {
             try {
 
-                const response = await fetch(getApiUrl());
+                const response = await fetch(`${getApiUrl()}/api/getStocks`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -39,7 +39,7 @@ const app = new Vue({
 
 const connect = () => {
     const connection = new signalR.HubConnectionBuilder()
-                            .withUrl(`${process.env.BACKEND_URL}/api`)
+                            .withUrl(`${getApiUrl()}/api`)
                             .configureLogging(signalR.LogLevel.Information)
                             .build();
 
