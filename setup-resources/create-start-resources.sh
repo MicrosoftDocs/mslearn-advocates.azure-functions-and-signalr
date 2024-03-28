@@ -60,17 +60,10 @@ COSMOSDB_ACCOUNT_NAME=$(az cosmosdb list \
 
 echo "Get CosmosDB connection string"
 
-COSMOSDB_CONNECTION_STRING=$(az cosmosdb list-connection-strings \
+COSMOSDB_CONNECTION_STRING=$(az cosmosdb keys list --type connection-strings \
   --name $COSMOSDB_ACCOUNT_NAME \
   --resource-group $RESOURCE_GROUP_NAME \
   --query "connectionStrings[?description=='Primary SQL Connection String'].connectionString" -o tsv)
-
-echo "Get CosmosDB master key"
-
-COSMOSDB_MASTER_KEY=$(az cosmosdb list-keys \
-  --name $COSMOSDB_ACCOUNT_NAME \
-  --resource-group $RESOURCE_GROUP_NAME \
-  --query primaryMasterKey -o tsv)
 
 printf "\n\nReplace <STORAGE_CONNECTION_STRING> with:\n$STORAGE_CONNECTION_STRING\n\nReplace <COSMOSDB_CONNECTION_STRING> with:\n$COSMOSDB_CONNECTION_STRING"
 
@@ -78,5 +71,4 @@ printf "\n\nReplace <STORAGE_CONNECTION_STRING> with:\n$STORAGE_CONNECTION_STRIN
 cat >> $NODE_ENV_FILE <<EOF2
 STORAGE_CONNECTION_STRING=$STORAGE_CONNECTION_STRING
 COSMOSDB_CONNECTION_STRING=$COSMOSDB_CONNECTION_STRING
-COSMOSDB_MASTER_KEY=$COSMOSDB_MASTER_KEY
 EOF2
