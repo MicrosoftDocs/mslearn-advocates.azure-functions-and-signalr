@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: todo-nodejs-mongo-swa-func
+metadata:
+  template: todo-nodejs-mongo-swa-func@0.0.1-beta
+services:
+  web:
+    project: ./src/web
+    dist: build
+    language: js
+    host: staticwebapp
+    hooks:
+      predeploy:
+        posix:
+          shell: sh
+          run: node entrypoint.js -o ./build/env-config.js
+          continueOnError: false
+          interactive: false
+        windows:
+          shell: pwsh
+          run: node entrypoint.js -o ./build/env-config.js
+          continueOnError: false
+          interactive: false
+  api:
+    project: ./src/api
+    language: js
+    host: function
