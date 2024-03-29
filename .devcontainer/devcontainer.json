@@ -16,6 +16,7 @@
 			"version": "latest",
 			"installBicep": true
 		},
+		"ghcr.io/azure/azure-dev/azd:latest": {},
 		"ghcr.io/jsburckhardt/devcontainer-features/gitleaks:1": {},
 		"ghcr.io/devcontainers-contrib/features/pre-commit:2": {}
 	},
