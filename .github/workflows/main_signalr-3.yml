@@ -35,7 +35,10 @@ jobs:
           popd
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./server-end/* -r
+        run: | 
+            pushd ./server-end
+            zip -r ../release.zip ./dist/* package.json
+            popd
         
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
