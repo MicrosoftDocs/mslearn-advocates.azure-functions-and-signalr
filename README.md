@@ -50,25 +50,147 @@ The starting project updates stock prices in a Cosmos DB database every minute w
 
 ## Deploy to Azure Static Web Apps and Azure Functions App
 
-1. Deploy the backend to Azure Functions App
+1. Deploy the backend to Azure Functions App.
+
+    GitHub Action workflow file should look like:
+
+   ```yaml
+    # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+    # More GitHub Actions for Azure: https://github.com/Azure/actions
+    
+    name: Build and deploy Node.js project to Azure Function App - signalr-3
+    
+    on:
+      push:
+        branches:
+          - main
+      workflow_dispatch:
+    
+    env:
+      PACKAGE_PATH: 'server-end' # set this to the path to your web app project, defaults to the repository root
+      AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+      NODE_VERSION: '20.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
+    
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: 'Checkout GitHub Action'
+            uses: actions/checkout@v4
+    
+          - name: Setup Node ${{ env.NODE_VERSION }} Environment
+            uses: actions/setup-node@v3
+            with:
+              node-version: ${{ env.NODE_VERSION }}
+    
+          - name: 'Resolve Project Dependencies Using Npm'
+            shell: bash
+            run: |
+              pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH}}'
+              npm install
+              npm run build --if-present
+              npm run test --if-present
+              popd
+    
+          - name: Zip artifact for deployment
+            run: |
+              pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH}}'
+              zip -r ../release.zip .
+              popd
+            
+          - name: Upload artifact for deployment job
+            uses: actions/upload-artifact@v3
+            with:
+              name: node-app
+              path: release.zip
+    
+      deploy:
+        runs-on: ubuntu-latest
+        needs: build
+        environment:
+          name: 'Production'
+          url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+        permissions:
+          id-token: write #This is required for requesting the JWT
+    
+        steps:
+          - name: Download artifact from build job
+            uses: actions/download-artifact@v3
+            with:
+              name: node-app
+    
+          - name: Unzip artifact for deployment
+            run: unzip release.zip
+          
+          - name: Login to Azure
+            uses: azure/login@v1
+            with:
+              client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7953CE71DA404164BBBC35F07ECDD4FD }}
+              tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_853880B11FFD4142A37B35F0DBD5C55D }}
+              subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3B05BF95EF5440AF941C3AECF9FF10CD }}
+    
+          - name: 'Run Azure Functions Action'
+            uses: Azure/functions-action@v1
+            id: fa
+            with:
+              app-name: 'signalr-3'
+              slot-name: 'Production'
+              package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+   ```
+   
+
+
 1. Deploy the frontend to Azure Static Web Apps in Standard plan type (not free) in order to use [bring your own backend](https://learn.microsoft.com/azure/static-web-apps/functions-bring-your-own) (byob).
 
     Workflow file should include this section:
 
     ```yaml
-      - name: Build And Deploy
-        id: builddeploy
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_<GENERATED_HOSTNAME> }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
-          action: "upload"
-          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/client-start" # App source code path
-          api_location: "" # Api source code path - optional
-          output_location: "dist" # Built app content directory - optional
-          ###### End of Repository/Build Configurations ######
+    name: Azure Static Web Apps CI/CD
+    
+    on:
+      push:
+        branches:
+          - main
+      pull_request:
+        types: [opened, synchronize, reopened, closed]
+        branches:
+          - main
+    
+    jobs:
+      build_and_deploy_job:
+        if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+        runs-on: ubuntu-latest
+        name: Build and Deploy Job
+        steps:
+          - uses: actions/checkout@v3
+            with:
+              submodules: true
+              lfs: false
+          - name: Build And Deploy
+            id: builddeploy
+            uses: Azure/static-web-apps-deploy@v1
+            with:
+              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LIVELY_BUSH_0E5550C0F }}
+              repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+              action: "upload"
+              ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
+              # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+              app_location: "/client-end" # App source code path
+              api_location: "" # Api source code path - optional
+              output_location: "dist" # Built app content directory - optional
+              ###### End of Repository/Build Configurations ######
+    
+      close_pull_request_job:
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        runs-on: ubuntu-latest
+        name: Close Pull Request Job
+        steps:
+          - name: Close Pull Request
+            id: closepullrequest
+            uses: Azure/static-web-apps-deploy@v1
+            with:
+              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LIVELY_BUSH_0E5550C0F }}
+              action: "close"
     ```
 
     BYOB doesn't rely on the `api_locaton` property to find the APIs. Once linked, you can access the Functions App `api` endpoints through the api path from your static web app. This means the client doesn't have to know the backend URL because it uses its own URL for that purpose. 
