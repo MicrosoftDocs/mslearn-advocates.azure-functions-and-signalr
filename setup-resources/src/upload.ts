@@ -13,10 +13,10 @@ const setupAndSeedDatabase = async ()  => {
   const data = await fs.readFile('data.json', 'utf8');
   const items = JSON.parse(data);
 
-  const { database: db } = await client.databases.create(databaseDefinition);
+  const { database: db } = await client.databases.createIfNotExists(databaseDefinition);
   console.log('Database created.');
 
-  const { container } = await db.containers.create(collectionDefinition);
+  const { container } = await db.containers.createIfNotExists(collectionDefinition);
   console.log('Collection created.');
 
   for await (const item of items) {
