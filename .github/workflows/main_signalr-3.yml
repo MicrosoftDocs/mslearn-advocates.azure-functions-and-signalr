@@ -10,7 +10,8 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  AZURE_FUNCTIONAPP_SERVER_PACKAGE_PATH: 'server-end' # set this to the path to your web app project, defaults to the repository root
+  ZIP_PACKAGE_PATH: '.'
   NODE_VERSION: '20.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
 
 jobs:
@@ -28,16 +29,11 @@ jobs:
       - name: 'Resolve Project Dependencies Using Npm'
         shell: bash
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/server-end/'
+          pushd './${{ env.ZIP_PACKAGE_PATH }}/${{ end.AZURE_FUNCTIONAPP_SERVER_PACKAGE_PATH}}'
           npm install
           npm run build --if-present
           npm run test --if-present
-          popd
-
-      - name: Zip artifact for deployment
-        run: | 
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/server-end/'
-          zip -r release.zip .
+          zip -r ../release.zip .
           popd
         
       - name: Upload artifact for deployment job
@@ -77,5 +73,5 @@ jobs:
         with:
           app-name: 'signalr-3'
           slot-name: 'Production'
-          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          package: ${{ env.ZIP_PACKAGE_PATH }}
           
