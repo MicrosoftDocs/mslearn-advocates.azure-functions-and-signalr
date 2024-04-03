@@ -35,12 +35,8 @@ jobs:
           popd
 
       - name: Zip artifact for deployment
-        run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/server-end/dist'
-          zip -r ../../release.zip ./*
-          popd
-          zip -ur release.zip ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/server-end/package.json
-
+        run: zip release.zip ./server-end/* -r
+        
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
