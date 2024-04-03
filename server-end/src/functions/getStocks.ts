@@ -12,9 +12,17 @@ app.http('getStocks', {
     authLevel: 'anonymous',
     extraInputs: [cosmosInput],
     handler: (request, context) => {
-        const stocks = context.extraInputs.get(cosmosInput);
-        return {
-            jsonBody: stocks,
-        };
+        try{
+            const stocks = context.extraInputs.get(cosmosInput);
+            return {
+                jsonBody: stocks,
+            };
+        } catch (error) {
+            return {
+                status: 500,
+                body: error.message,
+            };
+        }
+
     },
 });
