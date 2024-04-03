@@ -33,7 +33,7 @@ The Azure resources are created from bash scripts in the `setup-resources` folde
 
 * Azure Cosmos DB
 * Azure SignalR
-* Azure Storage (for Azure Funciton triggers)
+* Azure Storage (for Azure Function triggers)
 
 ## Ports
 
@@ -47,6 +47,11 @@ The starting project updates stock prices in a Cosmos DB database every minute w
 ## Ending project
 
 The starting project updates stock prices in a Cosmos DB database every minute with an Azure Function app and a timer trigger. The client uses SignalR to recieve on the Cosmos DB items with change notifications through an Azure Functions app. 
+
+## Deploy to Azure Static Web Apps and Azure Functions App
+
+1. Deploy the backend to Azure Functions App
+1. Deploy the frontend to Azure Static Web Apps in Standard pricing tier in order to use bring your own backend (byob).
 
 ## Troubleshooting
 
