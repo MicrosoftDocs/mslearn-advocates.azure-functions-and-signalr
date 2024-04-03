@@ -78,5 +78,5 @@ jobs:
         with:
           app-name: 'signalr-3'
           slot-name: 'Production'
-          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           
