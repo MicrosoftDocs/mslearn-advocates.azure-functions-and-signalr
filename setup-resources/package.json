@@ -1,7 +1,7 @@
 {
     "name": "setup",
     "version": "1.0.0",
-    "main": "dist/upload.js",
+    "main": "upload.js",
     "scripts": {
         "start": "npm run setup:start && npm run upload",
         "prestart": "npm run clean && npm run build",
@@ -9,7 +9,7 @@
         "build": "tsc",
         "setup:start": "bash create-start-resources.sh",
         "setup:signalr": "bash create-signalr-resources.sh",
-        "upload": "node dist/upload.js"
+        "upload": "cp ../.env .env && node dist/upload.js"
     },
     "license": "ISC",
     "dependencies": {
