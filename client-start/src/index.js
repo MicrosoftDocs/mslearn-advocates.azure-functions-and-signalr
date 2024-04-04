@@ -5,6 +5,8 @@ function getApiUrl() {
     const backend = process.env.BACKEND_URL;
     
     const url = (backend) ? `${backend}` : ``;
+
+    console.log('Backend URL: ', url);
     return url;
 }
 
@@ -30,6 +32,7 @@ const app = new Vue({
 
                 app.stocks = await response.json();
             } catch (ex) {
+                console.log('Caught Error fetching stocks: ', ex);
                 console.error(ex);
             }
         },

@@ -3,10 +3,11 @@
     "version": "1.0.0",
     "main": "upload.js",
     "scripts": {
-        "start": "npm run setup:start && npm run upload",
+        "start": "npm run setup:start && npm run upload && npm run setup:codespace-url",
         "prestart": "npm run clean && npm run build",
         "clean": "rimraf dist",
         "build": "tsc",
+        "setup:codespace-url": "bash codespace-url.sh",
         "setup:start": "bash create-start-resources.sh",
         "setup:signalr": "bash create-signalr-resources.sh",
         "upload": "cp ../.env .env && node dist/upload.js"
