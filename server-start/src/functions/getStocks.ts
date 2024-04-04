@@ -12,10 +12,23 @@ app.http('getStocks', {
     authLevel: 'anonymous',
     extraInputs: [cosmosInput],
     handler: (request, context) => {
-        const stocks = context.extraInputs.get(cosmosInput);
+
+        try{
+            const stocks: [] = context.extraInputs.get(cosmosInput) as [];
+
         
-        return {
-            jsonBody: stocks,
-        };
+            console.log(`Found ${stocks?.length} stocks`);
+
+            return {
+                status: 200,
+                jsonBody: stocks,
+            };
+        } catch (error) {
+            return {
+                status: 500,
+                body: error,
+            };
+        }
+
     },
 });
