@@ -53,7 +53,9 @@ module.exports = (env) => {
       ]
     },
     plugins: [
-      new Dotenv(),
+      new Dotenv({
+        systemvars: true
+      }),
       new CopyWebpackPlugin({
         patterns: [
           { from: './src/favicon.ico', to: './' },
