@@ -195,25 +195,6 @@ The starting project updates stock prices in a Cosmos DB database every minute w
 
     BYOB doesn't rely on the `api_locaton` property to find the APIs. Once linked, you can access the Functions App `api` endpoints through the api path from your static web app. This means the client doesn't have to know the backend URL because it uses its own URL for that purpose. 
 
-## Troubleshooting
-
-Log an issue and @mention the [`javascript-docs`](https://github.com/orgs/MicrosoftDocs/teams/javascript-docs) team. 
-
-### GitHub Actions workflows troubleshooting
-
-* If the server doesn't build correctly, add debugging to make sure the package path is correct.
-
-  ```yml
-        - name: Echo package path
-        run: echo ${{ env.PACKAGE_PATH }}
-  ```
-
-  The value should be: `server-start`. You can also use `server-end`. 
-
-### Codespaces troubleshooting
-
-* If the request from the client is refused by the serverless app, and you have CORS correctly configured in `local.settings.json`, change the visibility of the 7071 port from `private` to `public` for testing purposes only. This should allow the client to find the server in Codspaces. 
-
 ## Resources
 
 * [Azure SignalR service documentation](https://learn.microsoft.com/azure/azure-signalr/)

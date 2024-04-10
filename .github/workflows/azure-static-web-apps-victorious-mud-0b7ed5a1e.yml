@@ -3,11 +3,7 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - main
+      - dfberry/0410-fixes-and-deploy
   workflow_dispatch:
 
 jobs:
