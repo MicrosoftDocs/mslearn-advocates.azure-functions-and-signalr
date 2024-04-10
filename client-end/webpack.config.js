@@ -29,7 +29,7 @@ module.exports = (env) => {
       proxy: [
         {
           context: ['/api'],
-          target: env.BACKEND_URL || 'http://localhost:7071',
+          target: process.env.BACKEND_URL || 'http://localhost:7071',
         },
       ],
     },
@@ -62,7 +62,7 @@ module.exports = (env) => {
         ],
       }),
       new webpack.DefinePlugin({
-        BACKEND_URL: env.BACKEND_URL
+        BACKEND_URL: process.env.BACKEND_URL
       })
     ]
   }
