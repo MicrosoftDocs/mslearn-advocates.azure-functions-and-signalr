@@ -9,6 +9,9 @@ on:
       - '.github/workflows/azure-static-web-apps-victorious-mud-0b7ed5a1e.yml'
   workflow_dispatch:
 
+env: 
+  BACKEND_URL: {{ vars.BACKEND_URL }}
+
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
@@ -22,10 +25,14 @@ jobs:
 
       - name: Create .ENV for webpack
         run: | 
-          echo "BACKEND_URL=${{ vars.BACKEND_URL }}" >> .env
+          echo "BACKEND_URL=${{ env.BACKEND_URL }}" >> .env
       - name: View .ENV for webpack
         run: | 
           cat .env
+      - name: Env File
+        run: |
+          echo env >> system-env.txt
+          cat system-env.txt
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -40,7 +47,7 @@ jobs:
           output_location: "dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env: 
-          BACKEND_URL: ${{ vars.BACKEND_URL }}
+          BACKEND_URL: ${{ env.BACKEND_URL }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
