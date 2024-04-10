@@ -6,6 +6,7 @@ on:
       - dfberry/0410-fixes-and-deploy
     paths:
       - 'client-end/**'
+      - '.github/workflows/azure-static-web-apps-victorious-mud-0b7ed5a1e.yml'
   workflow_dispatch:
 
 jobs:
