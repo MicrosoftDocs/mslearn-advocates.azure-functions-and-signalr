@@ -26,6 +26,10 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Echo package path
+        run: echo ${{ env.PACKAGE_PATH }}
+
+
       - name: 'Resolve Project Dependencies Using Npm'
         shell: bash
         run: |
