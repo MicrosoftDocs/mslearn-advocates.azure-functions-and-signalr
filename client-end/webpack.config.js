@@ -5,7 +5,8 @@ const webpack = require('webpack');
 
 module.exports = (env) => {
 
-  console.log('BACKEND_URL: ', env.BACKEND_URL); 
+  console.log('env: ', env)
+  console.log('process.env: ', process.env)
 
   return {
     entry: './src/index.js',
