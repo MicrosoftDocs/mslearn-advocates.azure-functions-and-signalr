@@ -1,5 +1,5 @@
 {
-  "name": "client-start",
+  "name": "client-end",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -7,7 +7,7 @@
     "start": "serve dist",
     "start:dev": "webpack serve --mode development",
     "prestart": "npm run clean && npm run build",
-    "build": "webpack",
+    "build": "webpack --verbose",
     "clean": "rimraf dist"
   },
   "author": "",
