@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env: 
-  BACKEND_URL: {{ vars.BACKEND_URL }}
+  BACKEND_URL: ${{ vars.BACKEND_URL }}
 
 jobs:
   build_and_deploy_job:
