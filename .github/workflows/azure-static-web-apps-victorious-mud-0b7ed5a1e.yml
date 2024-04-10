@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - dfberry/0410-fixes-and-deploy
+    paths:
+      - 'client-end/**'
   workflow_dispatch:
 
 jobs:

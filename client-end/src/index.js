@@ -3,6 +3,7 @@ import './style.css';
 function getApiUrl() {
 
     const backend = process.env.BACKEND_URL;
+    console.log('getApiUrl - Backend URL:', backend);
     
     const url = (backend) ? `${backend}` : ``;
     return url;
@@ -25,7 +26,7 @@ const app = new Vue({
 
                 const response = await fetch(url);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
                 }
                 app.stocks = await response.json();
             } catch (ex) {

@@ -10,10 +10,15 @@ const cosmosOutput = output.cosmosDB({
 
 export async function setPrice(myTimer: Timer, context: InvocationContext): Promise<void> {
 
-    const newStock = await updateData();
+    try {
 
-    context.log(`Set Price ${newStock.symbol} ${newStock.price}`);
-    context.extraOutputs.set(cosmosOutput, newStock);
+        const newStock = await updateData();
+
+        context.log(`Set Price ${newStock.symbol} ${newStock.price}`);
+        context.extraOutputs.set(cosmosOutput, newStock);
+    } catch (error) {
+        context.log(`Error: ${error}`);
+    }
 }
 
 app.timer('setPrice', {

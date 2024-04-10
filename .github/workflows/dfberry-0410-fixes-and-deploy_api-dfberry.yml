@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - dfberry/0410-fixes-and-deploy
+    paths:
+      - 'server-end/**'
   workflow_dispatch:
 
 env:

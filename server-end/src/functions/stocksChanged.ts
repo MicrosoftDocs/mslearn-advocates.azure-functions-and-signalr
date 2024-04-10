@@ -9,15 +9,20 @@ const goingOutToSignalR = output.generic({
 
 export async function dataToMessage(documents: unknown[], context: InvocationContext): Promise<void> {
 
-    documents.map(stock => {
-        // @ts-ignore
-        context.log(`Get price ${stock.symbol} ${stock.price}`);
-        context.extraOutputs.set(goingOutToSignalR,
-            {
-                'target': 'updated',
-                'arguments': [stock]
-            });
-    });
+    try {
+
+        documents.map(stock => {
+            // @ts-ignore
+            context.log(`Get price ${stock.symbol} ${stock.price}`);
+            context.extraOutputs.set(goingOutToSignalR,
+                {
+                    'target': 'updated',
+                    'arguments': [stock]
+                });
+        });
+    } catch (error) {
+        context.log(`Error: ${error}`);
+    }
 }
 
 const options: CosmosDBv4FunctionOptions = {
