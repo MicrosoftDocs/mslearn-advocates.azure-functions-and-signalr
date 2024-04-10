@@ -1,6 +1,8 @@
-const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const { DefinePlugin, ProvidePlugin } = require('webpack');
+const { config: configDotEnv } = require('dotenv');
+const dotenv = configDotEnv();
 
 module.exports = (env) => {
 
@@ -53,13 +55,16 @@ module.exports = (env) => {
       ]
     },
     plugins: [
-      new Dotenv(),
       new CopyWebpackPlugin({
         patterns: [
           { from: './src/favicon.ico', to: './' },
           { from: './index.html', to: './' }
         ],
-      })
+      }),
+      new ProvidePlugin({ process: 'process' }),
+      new DefinePlugin({
+        'process.env': `(${JSON.stringify(dotenv.parsed)})`,
+      }),
     ]
   }
 }
