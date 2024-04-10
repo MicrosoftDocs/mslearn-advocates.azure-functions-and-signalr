@@ -1,14 +1,5 @@
 import './style.css';
-
-function getApiUrl() {
-
-    const backend = process.env.BACKEND_URL;
-    console.log('getApiUrl - Backend URL:', backend);
-    
-    const url = (backend) ? `${backend}` : ``;
-    return url;
-}
-
+import { BACKEND_URL } from './env';
 
 const app = new Vue({
     el: '#app',
@@ -21,7 +12,7 @@ const app = new Vue({
         async getStocks() {
             try {
 
-                const url = `${getApiUrl()}/api/getStocks`;
+                const url = `${BACKEND_URL}/api/getStocks`;
                 console.log('Fetching stocks from ', url);
 
                 const response = await fetch(url);
