@@ -57,7 +57,7 @@ module.exports = {
             ],
           }),
           new webpack.DefinePlugin({
-            'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL)
+            'process.env.BACKEND_URL': JSON.stringify(process.envgBACKEND_URL)
         })
     ]
       
