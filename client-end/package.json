@@ -7,7 +7,7 @@
     "start": "serve dist",
     "start:dev": "webpack serve --mode development",
     "prestart": "npm run clean && npm run build",
-    "build": "webpack --verbose",
+    "build": "webpack",
     "clean": "rimraf dist"
   },
   "author": "",
