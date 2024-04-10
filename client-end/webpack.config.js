@@ -9,6 +9,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
     },
+    stats: 'verbose',
     devServer: {
         static: {
           directory: path.join(__dirname, 'dist'),
@@ -55,6 +56,9 @@ module.exports = {
               { from: './index.html', to: './'}
             ],
           }),
+          new webpack.DefinePlugin({
+            'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL)
+        })
     ]
       
 }
