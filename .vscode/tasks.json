@@ -9,7 +9,7 @@
       "isBackground": true,
       "dependsOn": "npm build (functions)",
       "options": {
-        "cwd": "${workspaceFolder}/server-start"
+        "cwd": "${workspaceFolder}/server-end"
       }
     },
     {
@@ -19,7 +19,7 @@
       "dependsOn": "npm clean (functions)",
       "problemMatcher": "$tsc",
       "options": {
-        "cwd": "${workspaceFolder}/server-start"
+        "cwd": "${workspaceFolder}/server-end"
       }
     },
     {
@@ -27,7 +27,7 @@
       "label": "npm install (functions)",
       "command": "npm install",
       "options": {
-        "cwd": "${workspaceFolder}/server-start"
+        "cwd": "${workspaceFolder}/server-end"
       }
     },
     {
@@ -37,7 +37,7 @@
       "dependsOn": "npm build (functions)",
       "problemMatcher": [],
       "options": {
-        "cwd": "${workspaceFolder}/server-start"
+        "cwd": "${workspaceFolder}/server-end"
       }
     },
     {
@@ -46,7 +46,7 @@
       "command": "npm run clean",
       "dependsOn": "npm install (functions)",
       "options": {
-        "cwd": "${workspaceFolder}/server-start"
+        "cwd": "${workspaceFolder}/server-end"
       }
     }
   ]

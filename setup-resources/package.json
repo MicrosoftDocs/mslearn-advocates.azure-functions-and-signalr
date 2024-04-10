@@ -9,7 +9,8 @@
         "build": "tsc",
         "setup:start": "bash create-start-resources.sh",
         "setup:signalr": "bash create-signalr-resources.sh",
-        "upload": "cp ../.env .env && node dist/upload.js"
+        "upload": "node dist/upload.js",
+        "move:env": "cp .env ../server-start/.env && cp .env ../client-start/.env"
     },
     "license": "ISC",
     "dependencies": {
