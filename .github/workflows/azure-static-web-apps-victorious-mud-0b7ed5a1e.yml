@@ -23,6 +23,8 @@ jobs:
       - name: Create .ENV for webpack
         run: | 
           echo "BACKEND_URL=${{ vars.BACKEND_URL }}" >> .env
+      - name: View .ENV for webpack
+        run: | 
           cat .env
       - name: Build And Deploy
         id: builddeploy

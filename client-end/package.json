@@ -7,7 +7,7 @@
     "start": "serve dist",
     "start:dev": "webpack serve --mode development",
     "prestart": "npm run clean && npm run build",
-    "build": "cross-env BACKEND_URL=$BACKEND_URL webpack --mode development",
+    "build": "webpack --mode development",
     "clean": "rimraf dist"
   },
   "author": "",

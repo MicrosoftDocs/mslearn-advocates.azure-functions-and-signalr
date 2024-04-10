@@ -60,9 +60,6 @@ module.exports = (env) => {
           { from: './src/favicon.ico', to: './' },
           { from: './index.html', to: './' }
         ],
-      }),
-      new webpack.DefinePlugin({
-        BACKEND_URL: process.env.BACKEND_URL
       })
     ]
   }
