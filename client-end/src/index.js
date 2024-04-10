@@ -2,7 +2,7 @@ import './style.css';
 
 function getApiUrl() {
 
-    const backend = process.env.BACKEND_URL;
+    const backend = BACKEND_URL;
     console.log('getApiUrl - Backend URL:', backend);
     
     const url = (backend) ? `${backend}` : ``;
