@@ -31,8 +31,12 @@ const app = new Vue({
 });
 
 const connect = () => {
+
+    const signalR_URL = `${BACKEND_URL}/api`;
+    console.log(`Connecting to SignalR...${signalR_URL}`)
+
     const connection = new signalR.HubConnectionBuilder()
-                            .withUrl(`${BACKEND_URL}/api`)
+                            .withUrl(signalR_URL)
                             .configureLogging(signalR.LogLevel.Information)
                             .build();
 
