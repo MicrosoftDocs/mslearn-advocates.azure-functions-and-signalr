@@ -32,7 +32,7 @@ const app = new Vue({
 
 const connect = () => {
     const connection = new signalR.HubConnectionBuilder()
-                            .withUrl(`${getApiUrl()}/api`)
+                            .withUrl(`${BACKEND_URL}/api`)
                             .configureLogging(signalR.LogLevel.Information)
                             .build();
 
