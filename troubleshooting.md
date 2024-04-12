@@ -11,7 +11,7 @@ Log an issue and @mention the [`javascript-docs`](https://github.com/orgs/Micros
         run: echo ${{ env.PACKAGE_PATH }}
   ```
 
-  The value should be: `server-start`. You can also use `server-end`. 
+  The value should be: `start/server`. You can also use `solution/server`. 
 
 * If the client doesn't deploy correctly, add debugging to make sure it is build with the **BACKEND_URL**. 
 
