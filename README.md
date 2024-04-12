@@ -125,9 +125,9 @@ The starting project updates stock prices in a Cosmos DB database every minute w
           - name: Login to Azure
             uses: azure/login@v1
             with:
-              client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7953CE71DA404164BBBC35F07ECDD4FD }}
-              tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_853880B11FFD4142A37B35F0DBD5C55D }}
-              subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3B05BF95EF5440AF941C3AECF9FF10CD }}
+              client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_123 }}
+              tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_123 }}
+              subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_123 }}
     
           - name: 'Run Azure Functions Action'
             uses: Azure/functions-action@v1
@@ -156,6 +156,10 @@ The starting project updates stock prices in a Cosmos DB database every minute w
         branches:
           - main
     
+    # Set a repository variable for the backend URL
+    env: 
+      BACKEND_URL: ${{ vars.BACKEND_URL }}
+
     jobs:
       build_and_deploy_job:
         if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
@@ -170,7 +174,7 @@ The starting project updates stock prices in a Cosmos DB database every minute w
             id: builddeploy
             uses: Azure/static-web-apps-deploy@v1
             with:
-              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LIVELY_BUSH_0E5550C0F }}
+              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_123 }}
               repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
               action: "upload"
               ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
@@ -179,7 +183,9 @@ The starting project updates stock prices in a Cosmos DB database every minute w
               api_location: "" # Api source code path - optional
               output_location: "dist" # Built app content directory - optional
               ###### End of Repository/Build Configurations ######
-    
+            env: 
+              BACKEND_URL: ${{ env.BACKEND_URL }}
+
       close_pull_request_job:
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         runs-on: ubuntu-latest
@@ -189,11 +195,82 @@ The starting project updates stock prices in a Cosmos DB database every minute w
             id: closepullrequest
             uses: Azure/static-web-apps-deploy@v1
             with:
-              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LIVELY_BUSH_0E5550C0F }}
+              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_123 }}
               action: "close"
     ```
 
-    BYOB doesn't rely on the `api_locaton` property to find the APIs. Once linked, you can access the Functions App `api` endpoints through the api path from your static web app. This means the client doesn't have to know the backend URL because it uses its own URL for that purpose. 
+   The client build on the local machine depends on `.env` and in the workflow depends on system varaiables. 
+
+   ```javascript
+    // webpack workflow
+    const Dotenv = require('dotenv-webpack');   // Locally use the `.env`
+    const CopyWebpackPlugin = require('copy-webpack-plugin');
+    const path = require('path');
+
+    module.exports = (env) => {
+
+      console.log('env: ', env)
+      console.log('process.env: ', process.env)
+
+      return {
+        entry: './src/index.js',
+        output: {
+          path: path.resolve(__dirname, 'dist'),
+          filename: 'bundle.js'
+        },
+        stats: 'verbose',
+        devServer: {
+          static: {
+            directory: path.join(__dirname, 'dist'),
+          },
+          compress: true,
+          port: 3000,
+          allowedHosts: 'all',
+          client: {
+            logging: 'verbose',
+            overlay: true,
+          },
+          proxy: [
+            {
+              context: ['/api'],
+              target: process.env.BACKEND_URL || 'http://localhost:7071',
+            },
+          ],
+        },
+        module: {
+          rules: [
+            {
+              test: /\.css$/i,
+              use: ['style-loader', 'css-loader'],
+            },
+            {
+              "test": /\.js$/,
+              "exclude": /node_modules/,
+              "use": {
+                "loader": "babel-loader",
+                "options": {
+                  "presets": [
+                    "@babel/preset-env",
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        plugins: [
+          new Dotenv({
+            systemvars: true  // CICD - use system variables
+          }),
+          new CopyWebpackPlugin({
+            patterns: [
+              { from: './src/favicon.ico', to: './' },
+              { from: './index.html', to: './' }
+            ],
+          })
+        ]
+      }
+    }
+   ```
 
 ## Resources
 
