@@ -8,7 +8,6 @@ const inputSignalR = input.generic({
 });
 
 app.http('open-signalr-connection', {
-    methods: ['GET', 'POST', 'OPTIONS', 'HEAD', 'CONNECT', 'TRACE'],
     authLevel: 'anonymous',
     handler: (request, context) => {
         return { body: JSON.stringify(context.extraInputs.get(inputSignalR)) }
