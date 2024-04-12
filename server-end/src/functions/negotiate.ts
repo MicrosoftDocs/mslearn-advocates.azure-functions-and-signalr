@@ -1,4 +1,4 @@
-const { app, input } = require('@azure/functions');
+import { app, input } from '@azure/functions';
 
 const inputSignalR = input.generic({
     type: 'signalRConnectionInfo',
@@ -7,11 +7,13 @@ const inputSignalR = input.generic({
     connectionStringSetting: 'SIGNALR_CONNECTION_STRING',
 });
 
-app.post('open-signalr-connection', {
+app.http('open-signalr-connection', {
     authLevel: 'anonymous',
     handler: (request, context) => {
         return { body: JSON.stringify(context.extraInputs.get(inputSignalR)) }
     },
     route: 'negotiate',
     extraInputs: [inputSignalR],
+    methods: ['POST', 'OPTIONS']
 });
+
