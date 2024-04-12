@@ -11,6 +11,8 @@ export async function dataToMessage(documents: unknown[], context: InvocationCon
 
     try {
 
+        context.log(`Documents: ${JSON.stringify(documents)}`);
+
         documents.map(stock => {
             // @ts-ignore
             context.log(`Get price ${stock.symbol} ${stock.price}`);

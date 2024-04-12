@@ -272,6 +272,8 @@ The starting project updates stock prices in a Cosmos DB database every minute w
     }
    ```
 
+1. Enable CORS in the Functions app for the client and check `Enable Access-Control-Allow-Credentials`.
+
 ## Resources
 
 * [Azure SignalR service documentation](https://learn.microsoft.com/azure/azure-signalr/)
