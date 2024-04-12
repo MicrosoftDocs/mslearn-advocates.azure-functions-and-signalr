@@ -13,7 +13,6 @@ app.http('open-signalr-connection', {
         return { body: JSON.stringify(context.extraInputs.get(inputSignalR)) }
     },
     route: 'negotiate',
-    extraInputs: [inputSignalR],
-    methods: ['POST', 'OPTIONS']
+    extraInputs: [inputSignalR]
 });
 
