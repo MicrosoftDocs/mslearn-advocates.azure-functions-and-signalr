@@ -24,8 +24,8 @@ This repository is the companion to the following training module:
 
 This solution displays fake stock prices as they update: 
 
-* Start: uses polling every minute
-* End: uses database change notifications and SignalR
+* [Start](./start): uses polling every minute
+* [Solution](./solution): uses database change notifications and SignalR
 
 ## Set up resources
 
@@ -67,7 +67,7 @@ The starting project updates stock prices in a Cosmos DB database every minute w
       workflow_dispatch:
     
     env:
-      PACKAGE_PATH: 'server-end' # set this to the path to your web app project, defaults to the repository root
+      PACKAGE_PATH: 'solution/server' # set this to the path to your web app project, defaults to the repository root
       AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
       NODE_VERSION: '20.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
     
@@ -179,7 +179,7 @@ The starting project updates stock prices in a Cosmos DB database every minute w
               action: "upload"
               ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
               # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-              app_location: "/client-end" # App source code path
+              app_location: "/solution/client" # App source code path
               api_location: "" # Api source code path - optional
               output_location: "dist" # Built app content directory - optional
               ###### End of Repository/Build Configurations ######
