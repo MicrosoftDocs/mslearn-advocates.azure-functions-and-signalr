@@ -1,9 +1,11 @@
 #!/bin/bash
 
-# Get the first resource group
-echo "Getting the first resource group..."
-resourceGroup=$(az group list --query '[0].name' -o tsv)
-echo "Resource Group: $resourceGroup"
+# Get the default subscription
+SUBSCRIPTION_NAME=$(az account show --query 'name' -o tsv)
+echo "Using default subscription: $SUBSCRIPTION_NAME"
+
+# Set the resource group name
+RESOURCE_GROUP_NAME="stock-prototype"
 
 # Get the first Cosmos DB account in the resource group
 echo "Getting the first Cosmos DB account in the resource group..."

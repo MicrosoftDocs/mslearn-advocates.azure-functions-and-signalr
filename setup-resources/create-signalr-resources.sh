@@ -3,16 +3,24 @@
 # To run: sign in to Azure CLI with `az login`
 set -e
 
+# Check if user is logged into Azure CLI
+if ! az account show &> /dev/null
+then
+  echo "You are not logged into Azure CLI. Please log in with 'az login' and try again."
+  exit 1
+fi
+echo "User logged in"
+
 NODE_ENV_FILE="./.env"
 
-SUBSCRIPTION_NAME="Concierge Subscription"
+# Get the default subscription
+SUBSCRIPTION_NAME=$(az account show --query 'name' -o tsv)
+echo "Using default subscription: $SUBSCRIPTION_NAME"
 
-az account set --subscription "$SUBSCRIPTION_NAME"
-echo "User default subscription set to $SUBSCRIPTION_NAME"
+# Set the resource group name
+RESOURCE_GROUP_NAME="stock-prototype"
 
-RESOURCE_GROUP_NAME=$(az group list --query '[0].name' -o tsv)
-echo "Using resource group $RESOURCE_GROUP_NAME"
-
+# Set the SignalR service name
 SIGNALR_SERVICE_NAME="msl-sigr-signalr$(openssl rand -hex 5)"
 
 echo "Subscription Name: $SUBSCRIPTION_NAME"

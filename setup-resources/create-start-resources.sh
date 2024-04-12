@@ -13,10 +13,13 @@ echo "User logged in"
 
 NODE_ENV_FILE="./.env"
 
-SUBSCRIPTION_NAME="Concierge Subscription"
+# Get the default subscription
+SUBSCRIPTION_NAME=$(az account show --query 'name' -o tsv)
+echo "Using default subscription: $SUBSCRIPTION_NAME"
 
-az account set --subscription "$SUBSCRIPTION_NAME"
-echo "User default subscription set to $SUBSCRIPTION_NAME"
+# Set the resource group name
+RESOURCE_GROUP_NAME="stock-prototype"
+
 
 RESOURCE_GROUP_NAME=$(az group list --query '[0].name' -o tsv)
 echo "Using resource group $RESOURCE_GROUP_NAME"
@@ -72,3 +75,15 @@ cat >> $NODE_ENV_FILE <<EOF2
 STORAGE_CONNECTION_STRING=$STORAGE_CONNECTION_STRING
 COSMOSDB_CONNECTION_STRING=$COSMOSDB_CONNECTION_STRING
 EOF2
+
+# put resource group name in .env file
+echo -e "\nRESOURCE_GROUP_NAME=$RESOURCE_GROUP_NAME" >> $NODE_ENV_FILE
+echo "\n\nRESOURCE_GROUP_NAME=$RESOURCE_GROUP_NAME"
+
+
+# Validate the .env file
+if [ -f "$NODE_ENV_FILE" ]; then
+  echo "\n\nThe .env file was created successfully."
+else
+  echo "\n\nThe .env file was not created."
+fi
