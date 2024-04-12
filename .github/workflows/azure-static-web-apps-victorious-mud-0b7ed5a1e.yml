@@ -23,16 +23,16 @@ jobs:
           submodules: true
           lfs: false
 
-      - name: Create .ENV for webpack
-        run: | 
-          echo "BACKEND_URL=${{ env.BACKEND_URL }}" >> .env
-      - name: View .ENV for webpack
-        run: | 
-          cat .env
-      - name: Env File
-        run: |
-          echo env >> system-env.txt
-          cat system-env.txt
+      # - name: Create .ENV for webpack
+      #   run: | 
+      #     echo "BACKEND_URL=${{ env.BACKEND_URL }}" >> .env
+      # - name: View .ENV for webpack
+      #   run: | 
+      #     cat .env
+      # - name: Env File
+      #   run: |
+      #     echo env >> system-env.txt
+      #     cat system-env.txt
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
