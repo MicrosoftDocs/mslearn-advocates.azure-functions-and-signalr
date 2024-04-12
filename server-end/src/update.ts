@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs';
+import * as path from 'path';
 
 const MIN = 100;
 const MAX = 999;
@@ -27,7 +28,8 @@ const getStockChangeValues = (existingStock) => {
 
 export const updateData = async ()  => {
 
-  const data = await fs.readFile('./data.json', 'utf8');
+  const pathToData = path.join(__dirname, './data.json');
+  const data = await fs.readFile(pathToData, 'utf8');
   const items = JSON.parse(data);
 
   const existingStock = items[Math.floor(Math.random() * items.length)];
