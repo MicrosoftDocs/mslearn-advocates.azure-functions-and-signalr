@@ -11,6 +11,7 @@ const cosmosOutput = output.cosmosDB({
 export async function setPrice(myTimer: Timer, context: InvocationContext): Promise<void> {
 
     try {
+        context.log(`Timer trigger started at ${new Date().toISOString()}`);
 
         const newStock = await updateData();
 
