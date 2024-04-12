@@ -272,7 +272,7 @@ The starting project updates stock prices in a Cosmos DB database every minute w
     }
    ```
 
-1. Enable CORS in the Functions app for the client and check `Enable Access-Control-Allow-Credentials`.
+1. In Azure Functions, enable CORS for the client URL and check `Enable Access-Control-Allow-Credentials`.
 
 ## Resources
 
