@@ -46,8 +46,9 @@ const connect = () => {
     });
 
     connection.on('updated', updatedStock => {
-        console.log('Stock updated:', updatedStock);
+        console.log('Stock updated message received', updatedStock);
         const index = app.stocks.findIndex(s => s.id === updatedStock.id);
+        console.log(`${updatedStock.symbol} Old price: ${app.stocks[index].price}, New price: ${updatedStock.price}`);
         app.stocks.splice(index, 1, updatedStock);
     });
 
