@@ -24,8 +24,8 @@ This repository is the companion to the following training module:
 
 This solution displays fake stock prices as they update: 
 
-* Start: uses polling every minute
-* End: uses database change notifications and SignalR
+* [Start](./start): uses polling every minute
+* [Solution](./solution): uses database change notifications and SignalR
 
 ## Set up resources
 
@@ -67,7 +67,7 @@ The starting project updates stock prices in a Cosmos DB database every minute w
       workflow_dispatch:
     
     env:
-      PACKAGE_PATH: 'server-end' # set this to the path to your web app project, defaults to the repository root
+      PACKAGE_PATH: 'solution/server' # set this to the path to your web app project, defaults to the repository root
       AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
       NODE_VERSION: '20.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
     
@@ -125,9 +125,9 @@ The starting project updates stock prices in a Cosmos DB database every minute w
           - name: Login to Azure
             uses: azure/login@v1
             with:
-              client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_7953CE71DA404164BBBC35F07ECDD4FD }}
-              tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_853880B11FFD4142A37B35F0DBD5C55D }}
-              subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3B05BF95EF5440AF941C3AECF9FF10CD }}
+              client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_123 }}
+              tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_123 }}
+              subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_123 }}
     
           - name: 'Run Azure Functions Action'
             uses: Azure/functions-action@v1
@@ -156,6 +156,10 @@ The starting project updates stock prices in a Cosmos DB database every minute w
         branches:
           - main
     
+    # Set a repository variable for the backend URL
+    env: 
+      BACKEND_URL: ${{ vars.BACKEND_URL }}
+
     jobs:
       build_and_deploy_job:
         if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
@@ -170,16 +174,18 @@ The starting project updates stock prices in a Cosmos DB database every minute w
             id: builddeploy
             uses: Azure/static-web-apps-deploy@v1
             with:
-              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LIVELY_BUSH_0E5550C0F }}
+              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_123 }}
               repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
               action: "upload"
               ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
               # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-              app_location: "/client-end" # App source code path
+              app_location: "/solution/client" # App source code path
               api_location: "" # Api source code path - optional
               output_location: "dist" # Built app content directory - optional
               ###### End of Repository/Build Configurations ######
-    
+            env: 
+              BACKEND_URL: ${{ env.BACKEND_URL }}
+
       close_pull_request_job:
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         runs-on: ubuntu-latest
@@ -189,19 +195,84 @@ The starting project updates stock prices in a Cosmos DB database every minute w
             id: closepullrequest
             uses: Azure/static-web-apps-deploy@v1
             with:
-              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LIVELY_BUSH_0E5550C0F }}
+              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_123 }}
               action: "close"
     ```
 
-    BYOB doesn't rely on the `api_locaton` property to find the APIs. Once linked, you can access the Functions App `api` endpoints through the api path from your static web app. This means the client doesn't have to know the backend URL because it uses its own URL for that purpose. 
+   The client build on the local machine depends on `.env` and in the workflow depends on system varaiables. 
 
-## Troubleshooting
+   ```javascript
+    // webpack workflow
+    const Dotenv = require('dotenv-webpack');   // Locally use the `.env`
+    const CopyWebpackPlugin = require('copy-webpack-plugin');
+    const path = require('path');
 
-Log an issue and @mention the [`javascript-docs`](https://github.com/orgs/MicrosoftDocs/teams/javascript-docs) team. 
+    module.exports = (env) => {
 
-### Codespaces troubleshooting
+      console.log('env: ', env)
+      console.log('process.env: ', process.env)
 
-* If the request from the client is refused by the serverless app, and you have CORS correctly configured in `local.settings.json`, change the visibility of the 7071 port from `private` to `public` for testing purposes only. This should allow the client to find the server in Codspaces. 
+      return {
+        entry: './src/index.js',
+        output: {
+          path: path.resolve(__dirname, 'dist'),
+          filename: 'bundle.js'
+        },
+        stats: 'verbose',
+        devServer: {
+          static: {
+            directory: path.join(__dirname, 'dist'),
+          },
+          compress: true,
+          port: 3000,
+          allowedHosts: 'all',
+          client: {
+            logging: 'verbose',
+            overlay: true,
+          },
+          proxy: [
+            {
+              context: ['/api'],
+              target: process.env.BACKEND_URL || 'http://localhost:7071',
+            },
+          ],
+        },
+        module: {
+          rules: [
+            {
+              test: /\.css$/i,
+              use: ['style-loader', 'css-loader'],
+            },
+            {
+              "test": /\.js$/,
+              "exclude": /node_modules/,
+              "use": {
+                "loader": "babel-loader",
+                "options": {
+                  "presets": [
+                    "@babel/preset-env",
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        plugins: [
+          new Dotenv({
+            systemvars: true  // CICD - use system variables
+          }),
+          new CopyWebpackPlugin({
+            patterns: [
+              { from: './src/favicon.ico', to: './' },
+              { from: './index.html', to: './' }
+            ],
+          })
+        ]
+      }
+    }
+   ```
+
+1. In Azure Functions, enable CORS for the client URL and check `Enable Access-Control-Allow-Credentials`.
 
 ## Resources
 

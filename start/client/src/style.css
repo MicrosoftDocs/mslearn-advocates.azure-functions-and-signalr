@@ -1,0 +1,86 @@
+body {
+    padding: 40px;
+}
+
+#app {
+    padding-top: 25px;
+}
+
+.stock {
+    width: 200px;
+    border-radius: 3px;
+    padding: 10px;
+    border: solid 1px #eee;
+    text-align: center;
+    box-shadow: -1px 0px 2px 0px #eee;
+    -webkit-box-shadow: -1px 0px 2px 0px #eee;
+    -moz-box-shadow: -1px 0px 2px 0px #eee;
+    margin: 20px 20px 20px 0;
+}
+
+.stock:hover {
+    border: solid 1px rgb(212, 212, 212);
+}
+
+.lead {
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+.is-up,
+.is-down {
+    font-weight: bold;
+}
+
+.is-up {
+    color: green;
+}
+
+.is-down {
+    color: maroon;
+}
+
+.change {
+    text-transform: uppercase;
+    color: #999;
+    font-size: .8em;
+}
+
+.no-border,
+.no-border:active {
+    border:0;
+}
+
+.bottom {
+    vertical-align: bottom;
+}
+
+/* active means while it is happening */
+.list-enter-active, 
+.list-leave-active {
+    transition: all 10s;
+    background-color: lightgray;
+}
+
+/* i'm about to enter */
+.list-enter, 
+/* i already left */
+.list-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    background-color: lightblue;
+}
+
+
+.list-item {
+    transition: all 1s;
+}
+
+.fade-enter-active {
+  transition: all 10s ease;
+  background-color: lightgray;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+  background-color: lightblue;
+}
