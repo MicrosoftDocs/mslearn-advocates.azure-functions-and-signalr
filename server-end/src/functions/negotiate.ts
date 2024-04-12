@@ -7,7 +7,7 @@ const inputSignalR = input.generic({
     connectionStringSetting: 'SIGNALR_CONNECTION_STRING',
 });
 
-app.post('negotiate', {
+app.post('open-signalr-connection', {
     authLevel: 'anonymous',
     handler: (request, context) => {
         return { body: JSON.stringify(context.extraInputs.get(inputSignalR)) }

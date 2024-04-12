@@ -35,4 +35,4 @@ const options: CosmosDBv4FunctionOptions = {
     extraOutputs: [goingOutToSignalR],
 };
 
-app.cosmosDB('documents', options);
+app.cosmosDB('send-signalr-messages', options);
