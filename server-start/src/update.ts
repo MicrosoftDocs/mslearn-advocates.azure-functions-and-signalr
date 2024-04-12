@@ -27,7 +27,7 @@ const getStockChangeValues = (existingStock) => {
 
 export const updateData = async ()  => {
 
-  const data = await fs.readFile('../setup-resources/data.json', 'utf8');
+  const data = await fs.readFile('./data.json', 'utf8');
   const items = JSON.parse(data);
 
   const existingStock = items[Math.floor(Math.random() * items.length)];
