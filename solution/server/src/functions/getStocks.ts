@@ -13,11 +13,20 @@ app.http('getStocks', {
     extraInputs: [cosmosInput],
     handler: (request, context) => {
         try{
+
+            context.log('cosmosInput trigger');
+
             const stocks = context.extraInputs.get(cosmosInput);
+
+            context.log(stocks);
+
             return {
                 jsonBody: stocks,
             };
         } catch (error) {
+
+            context.log('cosmosInput error ' + JSON.stringify(error));
+
             return {
                 status: 500,
                 body: error.message,
