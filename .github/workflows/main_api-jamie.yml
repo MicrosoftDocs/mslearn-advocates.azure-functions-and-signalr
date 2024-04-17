@@ -43,8 +43,9 @@ jobs:
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}'
           ls -la
           echo "zipping"
-          zip -r ../release.zip .
+          zip -r release.zip .
           popd
+          cp ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}/release.zip ./release.zip
           ls -la
 
       - name: Upload artifact for deployment job
