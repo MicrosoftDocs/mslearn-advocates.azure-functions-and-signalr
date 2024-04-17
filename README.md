@@ -94,9 +94,7 @@ The starting project updates stock prices in a Cosmos DB database every minute w
     
           - name: Zip artifact for deployment
             run: |
-              pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH}}'
-              zip -r ../release.zip .
-              popd
+              zip -r release.zip ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}
             
           - name: Upload artifact for deployment job
             uses: actions/upload-artifact@v3
