@@ -46,23 +46,6 @@ jobs:
         env: 
           BACKEND_URL: ${{ env.BACKEND_URL }}
 
-      - name: Zip artifact for deployment
-        run: |
-          ls -la
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/start/client'
-          ls -la
-          echo "zipping"
-          zip -r release.zip .
-          popd
-          cp ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/start/client/release.zip ./release.zip
-          ls -la
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: client
-          path: release.zip
-
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
