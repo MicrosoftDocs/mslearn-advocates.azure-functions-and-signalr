@@ -9,7 +9,7 @@
         "build": "tsc",
         "setup:start": "bash create-start-resources.sh",
         "setup:signalr": "bash create-signalr-resources.sh",
-        "upload": "cp ../.env .env && node dist/upload.js"
+        "upload": "node dist/upload.js"
     },
     "license": "ISC",
     "dependencies": {
@@ -20,5 +20,8 @@
         "@types/node": "^20.11.30",
         "rimraf": "^5.0.5",
         "typescript": "^5.4.3"
-    }
+    },
+    "workspaces": [
+        "src"
+    ]
 }

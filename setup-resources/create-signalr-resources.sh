@@ -5,12 +5,11 @@ set -e
 
 NODE_ENV_FILE="./.env"
 
-SUBSCRIPTION_NAME="Concierge Subscription"
-
-az account set --subscription "$SUBSCRIPTION_NAME"
+#SUBSCRIPTION_NAME=""
+#az account set --subscription "$SUBSCRIPTION_NAME"
 echo "User default subscription set to $SUBSCRIPTION_NAME"
 
-RESOURCE_GROUP_NAME=$(az group list --query '[0].name' -o tsv)
+RESOURCE_GROUP_NAME="stock-prototype"
 echo "Using resource group $RESOURCE_GROUP_NAME"
 
 SIGNALR_SERVICE_NAME="msl-sigr-signalr$(openssl rand -hex 5)"
