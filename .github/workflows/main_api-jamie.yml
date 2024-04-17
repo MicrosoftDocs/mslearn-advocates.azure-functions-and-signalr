@@ -34,15 +34,17 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
-          ls -la
+          rm -rf node_modules
           popd
 
       - name: Zip artifact for deployment
         run: |
           ls -la
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}'
+          ls -la
           echo "zipping"
-          zip -r release.zip ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}/
-          rm -rf node_modules
+          zip -r ../release.zip .
+          popd
           ls -la
 
       - name: Upload artifact for deployment job
