@@ -39,10 +39,8 @@ jobs:
 
       - name: Zip artifact for deployment
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}'
           ls -la
-          zip -r ../release.zip .
-          popd
+          zip -r release.zip ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}
           ls -la
 
       - name: Upload artifact for deployment job
