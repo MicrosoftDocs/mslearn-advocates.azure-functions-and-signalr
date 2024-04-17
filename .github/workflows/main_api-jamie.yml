@@ -37,7 +37,7 @@ jobs:
 
       - name: Zip artifact for deployment
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ PACKAGE_PATH}}'
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ PACKAGE_PATH }}'
           zip -r ../release.zip .
           popd
 
