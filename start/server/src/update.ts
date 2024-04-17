@@ -19,6 +19,8 @@ const getStockChangeValues = (existingStock) => {
   let price = isChangePositive ? Number(existingStock.price) + change : Number(existingStock.price) - change;
   price = parseFloat(price.toFixed(2));
 
+  console.log(`${existingStock.symbol} price: ${price}, change: ${change}`);
+
   return {
     price,
     change,
@@ -36,8 +38,6 @@ export const updateData = async ()  => {
 
   const updates = getStockChangeValues(existingStock);
   const updatedStock = { ...existingStock, ...updates };
-
-  console.log(`updatedStock: ${JSON.stringify(updatedStock)}`);
 
   return updatedStock;
 
