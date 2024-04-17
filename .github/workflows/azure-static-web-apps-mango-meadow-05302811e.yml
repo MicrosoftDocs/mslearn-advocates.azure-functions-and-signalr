@@ -33,7 +33,7 @@ jobs:
           output_location: "dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env: 
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          BACKEND_URL: ${{ vars.BACKEND_URL }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
