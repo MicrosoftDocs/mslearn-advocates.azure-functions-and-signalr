@@ -29,7 +29,7 @@ jobs:
       - name: 'Resolve Project Dependencies Using Npm'
         shell: bash
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ PACKAGE_PATH }}'
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}'
           npm install
           npm run build --if-present
           npm run test --if-present
@@ -37,7 +37,7 @@ jobs:
 
       - name: Zip artifact for deployment
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ PACKAGE_PATH }}'
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}'
           zip -r ../release.zip .
           popd
 
