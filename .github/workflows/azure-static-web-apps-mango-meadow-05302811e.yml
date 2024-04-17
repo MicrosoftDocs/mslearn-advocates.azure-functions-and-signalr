@@ -11,7 +11,7 @@ on:
 
 
 env: 
-  BACKEND_URL: ${{ vars.BACKEND_URL }}"
+  BACKEND_URL: ${{ vars.BACKEND_URL }}
 
 
 jobs:
@@ -43,7 +43,7 @@ jobs:
           output_location: "dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env: 
-          BACKEND_URL: ${{ vars.BACKEND_URL }}
+          BACKEND_URL: ${{ env.BACKEND_URL }}
 
       - name: Zip artifact for deployment
         run: |
