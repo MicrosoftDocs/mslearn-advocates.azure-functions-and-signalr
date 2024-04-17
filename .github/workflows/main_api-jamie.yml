@@ -12,7 +12,7 @@ on:
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '20.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
-  PACKAGE_PATH: 'start/server'
+  PACKAGE_PATH: 'solution/server'
 
 jobs:
   build:
@@ -30,6 +30,7 @@ jobs:
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}'
+          ls -la
           npm install
           npm run build --if-present
           npm run test --if-present
@@ -38,6 +39,7 @@ jobs:
       - name: Zip artifact for deployment
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}'
+          ls -la
           zip -r ../release.zip .
           popd
 
