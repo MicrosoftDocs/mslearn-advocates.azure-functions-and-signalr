@@ -58,7 +58,7 @@ The starting project updates stock prices in a Cosmos DB database every minute w
     # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
     # More GitHub Actions for Azure: https://github.com/Azure/actions
     
-    name: Build and deploy Node.js project to Azure Function App - signalr-3
+    name: Server - Build and deploy Node.js project to Azure Function App
     
     on:
       push:
@@ -67,6 +67,8 @@ The starting project updates stock prices in a Cosmos DB database every minute w
       workflow_dispatch:
     
     env:
+      # solution/server is the finished path
+      # start/server is the original path you work on
       PACKAGE_PATH: 'solution/server' # set this to the path to your web app project, defaults to the repository root
       AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
       NODE_VERSION: '20.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
@@ -95,8 +97,9 @@ The starting project updates stock prices in a Cosmos DB database every minute w
           - name: Zip artifact for deployment
             run: |
               pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH}}'
-              zip -r ../release.zip .
+              zip -r release.zip .
               popd
+              cp ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}/release.zip ./release.zip
             
           - name: Upload artifact for deployment job
             uses: actions/upload-artifact@v3
@@ -142,135 +145,9 @@ The starting project updates stock prices in a Cosmos DB database every minute w
 
 1. Deploy the frontend to Azure Static Web Apps in Standard plan type (not free) in order to use [bring your own backend](https://learn.microsoft.com/azure/static-web-apps/functions-bring-your-own) (byob).
 
-    Workflow file should include this section:
+   * Azure Cloud: Choose the Vue.js prebuild template then edit for this example, using the [example client workflow](example-client-workflow.yml). The build relies on the injection of the repo variable to find the BACKEND_URL value during SWA build and deploy. The webpack Dotenv param for `systemvars: true` brings in the value from the GitHub step to the webpack build.
 
-    ```yaml
-    name: Azure Static Web Apps CI/CD
-    
-    on:
-      push:
-        branches:
-          - main
-      pull_request:
-        types: [opened, synchronize, reopened, closed]
-        branches:
-          - main
-    
-    # Set a repository variable for the backend URL
-    env: 
-      BACKEND_URL: ${{ vars.BACKEND_URL }}
-
-    jobs:
-      build_and_deploy_job:
-        if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-        runs-on: ubuntu-latest
-        name: Build and Deploy Job
-        steps:
-          - uses: actions/checkout@v3
-            with:
-              submodules: true
-              lfs: false
-          - name: Build And Deploy
-            id: builddeploy
-            uses: Azure/static-web-apps-deploy@v1
-            with:
-              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_123 }}
-              repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
-              action: "upload"
-              ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-              # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-              app_location: "/solution/client" # App source code path
-              api_location: "" # Api source code path - optional
-              output_location: "dist" # Built app content directory - optional
-              ###### End of Repository/Build Configurations ######
-            env: 
-              BACKEND_URL: ${{ env.BACKEND_URL }}
-
-      close_pull_request_job:
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
-        runs-on: ubuntu-latest
-        name: Close Pull Request Job
-        steps:
-          - name: Close Pull Request
-            id: closepullrequest
-            uses: Azure/static-web-apps-deploy@v1
-            with:
-              azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_123 }}
-              action: "close"
-    ```
-
-   The client build on the local machine depends on `.env` and in the workflow depends on system varaiables. 
-
-   ```javascript
-    // webpack workflow
-    const Dotenv = require('dotenv-webpack');   // Locally use the `.env`
-    const CopyWebpackPlugin = require('copy-webpack-plugin');
-    const path = require('path');
-
-    module.exports = (env) => {
-
-      console.log('env: ', env)
-      console.log('process.env: ', process.env)
-
-      return {
-        entry: './src/index.js',
-        output: {
-          path: path.resolve(__dirname, 'dist'),
-          filename: 'bundle.js'
-        },
-        stats: 'verbose',
-        devServer: {
-          static: {
-            directory: path.join(__dirname, 'dist'),
-          },
-          compress: true,
-          port: 3000,
-          allowedHosts: 'all',
-          client: {
-            logging: 'verbose',
-            overlay: true,
-          },
-          proxy: [
-            {
-              context: ['/api'],
-              target: process.env.BACKEND_URL || 'http://localhost:7071',
-            },
-          ],
-        },
-        module: {
-          rules: [
-            {
-              test: /\.css$/i,
-              use: ['style-loader', 'css-loader'],
-            },
-            {
-              "test": /\.js$/,
-              "exclude": /node_modules/,
-              "use": {
-                "loader": "babel-loader",
-                "options": {
-                  "presets": [
-                    "@babel/preset-env",
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        plugins: [
-          new Dotenv({
-            systemvars: true  // CICD - use system variables
-          }),
-          new CopyWebpackPlugin({
-            patterns: [
-              { from: './src/favicon.ico', to: './' },
-              { from: './index.html', to: './' }
-            ],
-          })
-        ]
-      }
-    }
-   ```
+   * Local: The client build on the local machine depends on a `.env` file at the root of the client application.
 
 1. In Azure Functions, enable CORS for the client URL and check `Enable Access-Control-Allow-Credentials`.
 
