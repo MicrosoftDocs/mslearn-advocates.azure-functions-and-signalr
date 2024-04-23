@@ -6,33 +6,47 @@ set -e
 # Check if user is logged into Azure CLI
 if ! az account show &> /dev/null
 then
-  echo "You are not logged into Azure CLI. Please log in with 'az login' and try again."
+  printf "You are not logged into Azure CLI. Please log in with 'az login' and try again."
   exit 1
 fi
-echo "User logged in"
+printf "User logged in\n"
 
 NODE_ENV_FILE="./.env"
 
-# Get the default subscription
-SUBSCRIPTION_NAME=$(az account show --query 'name' -o tsv)
-echo "Using default subscription: $SUBSCRIPTION_NAME"
+# Get user name
+USER_NAME=$(az account show --query 'user.name' -o tsv)
+# Capture name before `@` in user.name
+USER_NAME=${USER_NAME%%@*}
+printf "User name: $USER_NAME\n"
 
-# Set the resource group name
-RESOURCE_GROUP_NAME="stock-prototype"
+# Get the default subscription if not provided as a parameter
+SUBSCRIPTION_NAME=$1
+printf "Using subscription: $SUBSCRIPTION_NAME\n"
 
+# Set the resource group name if not provided as a parameter
+RANDOM_STRING=$(openssl rand -hex 5)
+printf "Using random string: $RANDOM_STRING\n"
+RESOURCE_GROUP_NAME="$USER_NAME-signal-r-$RANDOM_STRING"
 
-RESOURCE_GROUP_NAME=$(az group list --query '[0].name' -o tsv)
-echo "Using resource group $RESOURCE_GROUP_NAME"
+# Create a resource group
+az group create \
+  --subscription $SUBSCRIPTION_NAME \
+  --name "$RESOURCE_GROUP_NAME" \
+  --location eastus
+
+printf "Using resource group $RESOURCE_GROUP_NAME"
+
+exit 0
 
 export STORAGE_ACCOUNT_NAME=signalr$(openssl rand -hex 5)
 export COMSOSDB_NAME=signalr-cosmos-$(openssl rand -hex 5)
 
-echo "Subscription Name: $SUBSCRIPTION_NAME"
-echo "Resource Group Name: $RESOURCE_GROUP_NAME"
-echo "Storage Account Name: $STORAGE_ACCOUNT_NAME"
-echo "CosmosDB Name: $COMSOSDB_NAME"
+printf "Subscription Name: $SUBSCRIPTION_NAME"
+printf "Resource Group Name: $RESOURCE_GROUP_NAME"
+printf "Storage Account Name: $STORAGE_ACCOUNT_NAME"
+printf "CosmosDB Name: $COMSOSDB_NAME"
 
-echo "Creating Storage Account"
+printf "Creating Storage Account"
 
 az storage account create \
   --name $STORAGE_ACCOUNT_NAME \
@@ -40,13 +54,13 @@ az storage account create \
   --kind StorageV2 \
   --sku Standard_LRS
 
-echo "Creating CosmosDB Account"
+printf "Creating CosmosDB Account"
 
   az cosmosdb create  \
   --name $COMSOSDB_NAME \
   --resource-group $RESOURCE_GROUP_NAME
 
-echo "Get storage connection string"
+printf "Get storage connection string"
 
 STORAGE_CONNECTION_STRING=$(az storage account show-connection-string \
 --name $(az storage account list \
@@ -55,13 +69,13 @@ STORAGE_CONNECTION_STRING=$(az storage account show-connection-string \
 --resource-group $RESOURCE_GROUP_NAME \
 --query "connectionString" -o tsv)
 
-echo "Get account name" 
+printf "Get account name" 
 
 COSMOSDB_ACCOUNT_NAME=$(az cosmosdb list \
     --resource-group $RESOURCE_GROUP_NAME \
     --query [0].name -o tsv)
 
-echo "Get CosmosDB connection string"
+printf "Get CosmosDB connection string"
 
 COSMOSDB_CONNECTION_STRING=$(az cosmosdb keys list --type connection-strings \
   --name $COSMOSDB_ACCOUNT_NAME \
@@ -77,13 +91,13 @@ COSMOSDB_CONNECTION_STRING=$COSMOSDB_CONNECTION_STRING
 EOF2
 
 # put resource group name in .env file
-echo -e "\nRESOURCE_GROUP_NAME=$RESOURCE_GROUP_NAME" >> $NODE_ENV_FILE
-echo "\n\nRESOURCE_GROUP_NAME=$RESOURCE_GROUP_NAME"
+printf -e "RESOURCE_GROUP_NAME=$RESOURCE_GROUP_NAME" >> $NODE_ENV_FILE
+printf "\n\nRESOURCE_GROUP_NAME=$RESOURCE_GROUP_NAME"
 
 
 # Validate the .env file
 if [ -f "$NODE_ENV_FILE" ]; then
-  echo "\n\nThe .env file was created successfully."
+  printf "\n\nThe .env file was created successfully."
 else
-  echo "\n\nThe .env file was not created."
+  printf "\n\nThe .env file was not created."
 fi
