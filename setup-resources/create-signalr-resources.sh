@@ -3,51 +3,44 @@
 # To run: sign in to Azure CLI with `az login`
 set -e
 
+
 # Check if user is logged into Azure CLI
 if ! az account show &> /dev/null
 then
-  echo "You are not logged into Azure CLI. Please log in with 'az login' and try again."
+  prinft "You are not logged into Azure CLI. Please log in with 'az login' and try again.\n"
   exit 1
 fi
-echo "User logged in"
+printf "User logged in\n"
 
 NODE_ENV_FILE="./.env"
 
 # Get the default subscription
 SUBSCRIPTION_NAME=$(az account show --query 'name' -o tsv)
-echo "Using default subscription: $SUBSCRIPTION_NAME"
 
-# Set the resource group name
-RESOURCE_GROUP_NAME="stock-prototype"
 
 # Set the SignalR service name
 SIGNALR_SERVICE_NAME="msl-sigr-signalr$(openssl rand -hex 5)"
 
-echo "Subscription Name: $SUBSCRIPTION_NAME"
-echo "Resource Group Name: $RESOURCE_GROUP_NAME"
-echo "SignalR Service Name: $SIGNALR_SERVICE_NAME"
+printf "Subscription Name: ""$SUBSCRIPTION_NAME"" \n"
+printf "SignalR Service Name: $SIGNALR_SERVICE_NAME\n"
 
-echo "Creating SignalR Account"
+printf "Creating SignalR Account\n"
 az signalr create \
-    --name $SIGNALR_SERVICE_NAME \
-    --resource-group $RESOURCE_GROUP_NAME \
-    --sku Free_DS2 \
-    --unit-count 1
+    --name "$SIGNALR_SERVICE_NAME" \
+    --sku Free_DS2
 
-echo "Configure SignalR for serverless mode"
+printf "Configure SignalR for serverless mode\n"
+
 az resource update \
   --resource-type Microsoft.SignalRService/SignalR \
-  --name $SIGNALR_SERVICE_NAME \
-  --resource-group $RESOURCE_GROUP_NAME \
+  --name "$SIGNALR_SERVICE_NAME" \
   --set properties.features[flag=ServiceMode].value=Serverless
 
-  echo "Get SignalR connection string"
+printf "Get SignalR connection string\n"
 
-  SIGNALR_CONNECTION_STRING=$(az signalr key list \
+SIGNALR_CONNECTION_STRING=$(az signalr key list \
   --name $(az signalr list \
-    --resource-group $RESOURCE_GROUP_NAME \
     --query [0].name -o tsv) \
-  --resource-group $RESOURCE_GROUP_NAME \
   --query primaryConnectionString -o tsv)
 
 # Add the SignalR connection string to the .env file

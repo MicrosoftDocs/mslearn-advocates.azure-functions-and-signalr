@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "upload.js",
     "scripts": {
-        "start": "npm run setup:start && npm run upload",
+        "start": "npm run upload",
         "prestart": "npm run clean && npm run build",
         "clean": "rimraf dist",
         "build": "tsc",
