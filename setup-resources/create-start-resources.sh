@@ -10,6 +10,9 @@ set -e
 
 printf "Param 1: $1\n"
 
+LOCATION="eastus2"
+printf "Location: $LOCATION\n"
+
 # Check if user is logged into Azure CLI
 if ! az account show &> /dev/null
 then
@@ -39,7 +42,7 @@ RESOURCE_GROUP_NAME="$USER_NAME-signalr-$RANDOM_STRING"
 az group create \
   --subscription "$SUBSCRIPTION_NAME" \
   --name "$RESOURCE_GROUP_NAME" \
-  --location eastus
+  --location $LOCATION
 
 # Set default resource group
 az configure --defaults group="$RESOURCE_GROUP_NAME"
