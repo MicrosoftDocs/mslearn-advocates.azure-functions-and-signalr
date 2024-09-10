@@ -4,7 +4,7 @@ const inputSignalR = input.generic({
     type: 'signalRConnectionInfo',
     name: 'connectionInfo',
     hubName: 'default',
-    connectionStringSetting: 'SIGNALR_CONNECTION_STRING',
+    connectionStringSetting: 'Endpoint=https://msl-sigr-signalr7bce9a1bc0.service.signalr.net;AccessKey=ENc6GLaw7qWuRyEbaoB2BELvdHze1uBbJAN5MJfduYs=;Version=1.0;%',
 });
 
 app.http('open-signalr-connection', {
@@ -15,4 +15,3 @@ app.http('open-signalr-connection', {
     route: 'negotiate',
     extraInputs: [inputSignalR]
 });
-

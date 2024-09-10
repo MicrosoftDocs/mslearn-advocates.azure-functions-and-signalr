@@ -12,6 +12,7 @@ on:
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '20.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
+  PACKAGE_PATH: 'start/server'
 
 jobs:
   build:
@@ -35,7 +36,11 @@ jobs:
           popd
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}'
+          zip -r release.zip .
+          popd
+          cp ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.PACKAGE_PATH }}/release.zip ./release.zip
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
