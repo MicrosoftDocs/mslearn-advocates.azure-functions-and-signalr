@@ -1,10 +1,10 @@
 {
   "IsEncrypted": false,
   "Values": {
-    "AzureWebJobsStorage": "https://az204signalresource.service.signalr.net;AccessKey=ILWIHvAYdBz5qEVuuSe9lA21cV5WzrMHFF3zWXetK2p7CQeeAGH8JQQJ99AKACBsN54XJ3w3AAAAASRSH6Sm;Version=1.0;",
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=saforcosmosdbaccount;AccountKey=8hBMH4xuw0n7Q3hM2xGsml2qJnt6ZnS7Y0aIglrVKm0nMkharZdMmKH4GQmcdZIHs3wF3jFg5AKO+AStYLP9CA==;EndpointSuffix=core.windows.net",
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "AzureWebJobsFeatureFlags": "EnableWorkerIndexing",
-    "COSMOSDB_CONNECTION_STRING": "https://az204signalresource.service.signalr.net;AccessKey=ILWIHvAYdBz5qEVuuSe9lA21cV5WzrMHFF3zWXetK2p7CQeeAGH8JQQJ99AKACBsN54XJ3w3AAAAASRSH6Sm;Version=1.0;"
+    "COSMOSDB_CONNECTION_STRING": "AccountEndpoint=https://sdcosmosdbstorageccount.documents.azure.com:443/;AccountKey=0EaWYCWhvgwvF271iRos22j37cX7zlsImXMxxIVKPsxn3GOEC0uGJVVch7fNXGTcxZNRyYtb1bpoACDb2jeXWg==;"
     "SIGNALR_CONNECTION_STRING":"https://az204signalresource.service.signalr.net;AccessKey=ILWIHvAYdBz5qEVuuSe9lA21cV5WzrMHFF3zWXetK2p7CQeeAGH8JQQJ99AKACBsN54XJ3w3AAAAASRSH6Sm;Version=1.0;"
   },
   "Host" : {
