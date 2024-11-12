@@ -1,1 +1,15 @@
-
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "Endpoint=https://az204signalresource.service.signalr.net;AccessKey=ILWIHvAYdBz5qEVuuSe9lA21cV5WzrMHFF3zWXetK2p7CQeeAGH8JQQJ99AKACBsN54XJ3w3AAAAASRSH6Sm;Version=1.0;",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsFeatureFlags": "EnableWorkerIndexing",
+    "COSMOSDB_CONNECTION_STRING": "Endpoint=https://az204signalresource.service.signalr.net;AccessKey=ILWIHvAYdBz5qEVuuSe9lA21cV5WzrMHFF3zWXetK2p7CQeeAGH8JQQJ99AKACBsN54XJ3w3AAAAASRSH6Sm;Version=1.0;"
+    "SIGNALR_CONNECTION_STRING":"Endpoint=https://az204signalresource.service.signalr.net;AccessKey=ILWIHvAYdBz5qEVuuSe9lA21cV5WzrMHFF3zWXetK2p7CQeeAGH8JQQJ99AKACBsN54XJ3w3AAAAASRSH6Sm;Version=1.0;"
+  },
+  "Host" : {
+    "LocalHttpPort": 7071,
+    "CORS": "http://localhost:3000",
+    "CORSCredentials": true
+  }
+}
