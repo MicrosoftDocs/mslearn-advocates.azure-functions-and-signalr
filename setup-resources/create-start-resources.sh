@@ -93,6 +93,21 @@ COSMOSDB_ACCOUNT_NAME=$(az cosmosdb list \
 
 printf "Get CosmosDB connection string \n"
 
+
+# Create stocksdb database
+az cosmosdb sql database create \
+    --account-name $COSMOSDB_ACCOUNT_NAME \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --name stocksdb
+
+# Create stocks container
+az cosmosdb sql container create \
+    --account-name $COSMOSDB_ACCOUNT_NAME \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --database-name stocksdb \
+    --name stocks \
+    --partition-key-path /symbol
+
 COSMOSDB_CONNECTION_STRING=$(az cosmosdb keys list --type connection-strings \
   --name $COSMOSDB_ACCOUNT_NAME \
   --resource-group $RESOURCE_GROUP_NAME \
