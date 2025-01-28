@@ -73,9 +73,22 @@ az cosmosdb create  \
   --name $COMSOSDB_NAME \
   --resource-group $RESOURCE_GROUP_NAME
 
+
+# Create stocksdb database
+az cosmosdb sql database create \
+    --account-name $COSMOSDB_ACCOUNT_NAME \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --name stocksdb
+
+# Create stocks container
+az cosmosdb sql container create \
+    --account-name $COSMOSDB_ACCOUNT_NAME \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --database-name stocksdb \
+    --name stocks \
+    --partition-key-path /symbol
+
 printf "Get storage connection string\n"
-
-
 
 STORAGE_CONNECTION_STRING=$(az storage account show-connection-string \
 --name $(az storage account list \
